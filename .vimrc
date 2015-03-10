@@ -5,14 +5,20 @@ filetype off                   " required!
 
 call vundle#rc()
 
-Bundle 'Solarized'
-Bundle 'vimwiki'
-Bundle 'fugitive.vim'
-Bundle 'bling/vim-airline'
-Bundle 'loremipsum'
-Bundle 'surround.vim'
-Bundle 'http://github.com/mattn/emmet-vim'
-Bundle 'https://github.com/mhinz/vim-startify'
+Plugin 'Solarized'
+Plugin 'vimwiki'
+Plugin 'fugitive.vim'
+Plugin 'bling/vim-airline'
+Plugin 'loremipsum'
+Plugin 'surround.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'mattn/calendar-vim'
+Plugin 'mattn/gist-vim'
+Plugin 'mhinz/vim-startify'
+Plugin 'yuratomo/w3m.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'pangloss/vim-javascript'
+"Plugin 'https://github.com/jaxbot/browserlink.vim'
 
 " original repos on github
 " Bundle 'tpope/vim-fugitive'
@@ -38,6 +44,7 @@ colorscheme solarized
 autocmd! BufWritePost $MYVIMRC so $MYVIMRC
 
 map ,v :tabe $MYVIMRC<CR>
+map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
 "}}}
 
@@ -60,8 +67,12 @@ let g:airline#extensions#branch#enabled = 1
 let mapleader = ","
 nnoremap <C-*> <C-]>
 
+" open or create file under cursor
+nnoremap gf :e <cfile><CR>
+
 set history=10000
 set magic 
+set undofile
 
 " divers"{{{
 syntax on
@@ -78,7 +89,10 @@ set ignorecase
 set smartcase
 set autoindent
 set ruler
-set cursorline"}}}
+set cursorline
+set list listchars=nbsp:¤,tab:··,trail:¤,extends:▶,precedes:◀
+"}}}
+
 
 " long completion menu
 set wildmenu
@@ -109,7 +123,7 @@ map <space> /
 map <c-space> ?
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+map <silent> <leader><space> :noh<cr>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
