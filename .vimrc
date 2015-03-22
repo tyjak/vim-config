@@ -67,15 +67,14 @@ let g:airline#extensions#branch#enabled = 1
 let mapleader = ","
 nnoremap <C-*> <C-]>
 
-" open or create file under cursor
-nnoremap gf :e <cfile><CR>
-
-set history=10000
-set magic 
-set undofile
-
 " divers"{{{
 syntax on
+set history=10000
+set magic 
+set backupdir=~/.vimfiles/bak          " backup files
+set directory=~/.vimfiles/swp          " swap files
+set undodir  =~/.vimfiles/undo         " undo files
+set undofile                      " persistent undo
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -91,13 +90,10 @@ set autoindent
 set ruler
 set cursorline
 set list listchars=nbsp:¤,tab:··,trail:¤,extends:▶,precedes:◀
-"}}}
-
-
 " long completion menu
 set wildmenu
 set wildmode=list:longest,full
-
+"}}}
 " Mappings"{{{
 
 " Switch CWD to the directory of the open buffer
@@ -131,13 +127,20 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+" open or create file under cursor
+nnoremap gf :e <cfile><CR>
+
+" dictionary
+nmap <silent> <leader>se :set spelllang=en spell!<CR>
+nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
+
 "nmap t :tabe<cr>"}}}
 
 " quelques commandes
-command! -nargs=1 Mks mksession ~/sessions/<args>
-command! -nargs=1 Ops source ~/sessions/<args>
+command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
+command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
 
-"vimwiki conversion auto des fichier du wiki en html
+"vimwiki conversion auto des fichiers du wiki en html
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/Sites/tyjak.github.io/'}]
 autocmd! BufWritePost *.wiki silent Vimwiki2HTML
 
