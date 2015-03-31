@@ -13,7 +13,9 @@ Plugin 'loremipsum'
 Plugin 'surround.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'mattn/calendar-vim'
+Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
+Plugin 'mtth/scratch.vim'
 Plugin 'mhinz/vim-startify'
 Plugin 'yuratomo/w3m.vim'
 Plugin 'airblade/vim-gitgutter'
@@ -93,6 +95,7 @@ set list listchars=nbsp:¤,tab:··,trail:¤,extends:▶,precedes:◀
 " long completion menu
 set wildmenu
 set wildmode=list:longest,full
+set hidden
 "}}}
 " Mappings"{{{
 
@@ -140,9 +143,17 @@ nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
 command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
 command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
 
+"Plugin setup"{{{
+
+" vimwiki setup"{{{
 "vimwiki conversion auto des fichiers du wiki en html
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/Sites/tyjak.github.io/'}]
-autocmd! BufWritePost *.wiki silent Vimwiki2HTML
+autocmd! BufWritePost *.wiki silent Vimwiki2HTML"}}}
+
+"Startify setup"{{{
+let g:startify_change_to_vcs_root = 1
+let g:startify_bookmarks = [ '~/.muttrc-local','~/.config/i3/config','~/.config/i3/status.py' ]"}}}
+"}}}
 
 " on ouvre dwb
 "function! VimwikiLinkHandler(link)
