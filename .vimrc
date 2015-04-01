@@ -110,8 +110,22 @@ vmap ,j :m+<cr>
 vmap ,k :m-2<cr>
 
 " Cycle beetween tab
-nmap H :tabprevious<CR>
-nmap L :tabnext<CR>
+nnoremap <C-h> :tabprevious<CR>
+nnoremap <C-l> :tabnext<CR>
+nnoremap <C-j> :bprevious<CR>
+nnoremap <C-k> :bnext<CR>
+
+" easy choose a buffer
+nnoremap <C-b> :buffers<CR>:buffer<Space>
+
+" edit in a new tab with Startify
+nnoremap <C-t> :tabnew<CR>:Startify<CR>
+
+" close current tab
+nnoremap <C-d> :tabclose<cr>
+
+"delete current buffer
+nnoremap <C-x> :bdelete<cr>
 
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
@@ -125,10 +139,10 @@ map <c-space> ?
 map <silent> <leader><space> :noh<cr>
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+nnoremap J <C-W>j
+nnoremap K <C-W>k
+nnoremap H <C-W>h
+nnoremap L <C-W>l
 
 " open or create file under cursor
 nnoremap gf :e <cfile><CR>
