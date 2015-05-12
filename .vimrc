@@ -20,6 +20,8 @@ Plugin 'mhinz/vim-startify'
 Plugin 'yuratomo/w3m.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'pangloss/vim-javascript'
+Plugin 'vimoutliner/vimoutliner'
+"Plugin 'itchyny/calendar.vim'
 "Plugin 'https://github.com/jaxbot/browserlink.vim'
 
 " original repos on github
@@ -51,6 +53,7 @@ map ,i :tabe ~/.config/i3/config<CR>
 "}}}
 
 " vim airline + font +gvim "{{{
+" 
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
 set guioptions-=m
@@ -62,12 +65,10 @@ set guioptions-=F
 set guioptions-=e
 set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 9
 let g:airline_powerline_fonts = 1
-set laststatus=2"}}}
+set laststatus=2
 let g:airline#extensions#branch#enabled = 1
-
-" remaping for azerty
-let mapleader = ","
-nnoremap <C-*> <C-]>
+set colorcolumn=80
+"}}}
 
 " divers"{{{
 syntax on
@@ -96,11 +97,19 @@ set list listchars=nbsp:¤,tab:··,trail:¤,extends:▶,precedes:◀
 set wildmenu
 set wildmode=list:longest,full
 set hidden
+set cryptmethod=blowfish2
+set nofoldenable
 "}}}
+
 " Mappings"{{{
 
+" remaping for azerty
+let mapleader = ","
+" remap c-[ for azerty keyboard
+" noremap <C-ù> <C-]>
+
 " Switch CWD to the directory of the open buffer
-map <leader>, :cd %:p:h<cr>:pwd<cr>
+map <leader>; :cd %:p:h<cr>:pwd<cr>
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 " TODO see to fix alt macbook key
@@ -122,10 +131,10 @@ nnoremap <C-b> :buffers<CR>:buffer<Space>
 nnoremap <C-t> :tabnew<CR>:Startify<CR>
 
 " close current tab
-nnoremap <C-d> :tabclose<cr>
+"nnoremap <C-d> :tabclose<cr>
 
 "delete current buffer
-nnoremap <C-x> :bdelete<cr>
+"nnoremap <C-x> :bdelete<cr>
 
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
@@ -150,36 +159,52 @@ nnoremap gf :e <cfile><CR>
 " dictionary
 nmap <silent> <leader>se :set spelllang=en spell!<CR>
 nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
+imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <C-f> [s1z=<c-o>
 
 "nmap t :tabe<cr>"}}}
 
-" quelques commandes
+" quelques commandes"{{{
 command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
 command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
+" }}}
+
+" Quelques abbréviations"{{{
+iab <expr> hms strftime("%T")
+iab <expr> ymd strftime("%y%m%d")
+iab <expr> --c strftime("%c")
+"}}}
 
 "Plugin setup"{{{
 
 " vimwiki setup"{{{
 "vimwiki conversion auto des fichiers du wiki en html
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/Sites/tyjak.github.io/'}]
-autocmd! BufWritePost *.wiki silent Vimwiki2HTML"}}}
+let vimwiki = {}
+let vimwiki.path = '~/vimwiki/'
+let vimwiki.path_html = '~/Sites/tyjak.github.io/'
+let vimwiki_perso = {}
+let vimwiki_perso.path = '~/share/vimwiki_perso'
+let vimwiki_perso.path_html = '~/share/sites/perso'
+let g:vimwiki_list = [vimwiki, vimwiki_perso]
+autocmd! BufWritePost *.wiki silent Vimwiki2HTML
+let g:vimwiki_folding='expr'
+"au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
+"}}}
 
 "Startify setup"{{{
 let g:startify_change_to_vcs_root = 1
-let g:startify_bookmarks = [ '~/.muttrc-local','~/.config/i3/config','~/.config/i3/status.py' ]"}}}
+let g:startify_bookmarks = []
+let g:startify_bookmarks += ['~/.muttrc-local']
+let g:startify_bookmarks += ['~/.config/i3/config']
+let g:startify_bookmarks += ['~/.config/i3/status.py']
 "}}}
 
-" on ouvre dwb
-"function! VimwikiLinkHandler(link)
-"try
-"  let browser = '/usr/bin/i3-msg -q focus parent split horizontal exec "/usr/bin/dwb -n"'
-"  execute 'silent !'.browser.' ' . a:link
-"  return 1
-"catch
-"  echo "This can happen for a variety of reasons ..."
-"endtry
-"return 0
-"endfunction
+"Gist setup"{{{
+let g:gist_clip_command = 'xclip -selection clipboard'
+let g:gist_show_privates = 1
+"let g:gist_list_vsplit = 1
+"}}}
 
+"}}}
 
 " vim: set foldmethod=marker:
