@@ -21,6 +21,9 @@ Plugin 'yuratomo/w3m.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'pangloss/vim-javascript'
 Plugin 'vimoutliner/vimoutliner'
+Plugin 'osyo-manga/vim-over'
+Plugin 'chase/vim-ansible-yaml'
+Plugin 'tpope/vim-markdown'
 "Plugin 'itchyny/calendar.vim'
 "Plugin 'https://github.com/jaxbot/browserlink.vim'
 
@@ -46,6 +49,7 @@ colorscheme solarized
 
 " easy vimrc quickopen, autoreload"{{{
 autocmd! BufWritePost $MYVIMRC so $MYVIMRC
+autocmd BufRead,BufNew *.md set filetype=markdown
 
 map ,v :tabe $MYVIMRC<CR>
 map ,V :source $MYVIMRC<CR>
@@ -74,9 +78,10 @@ set colorcolumn=80
 syntax on
 set history=10000
 set magic 
-set backupdir=~/.vimfiles/bak          " backup files
-set directory=~/.vimfiles/swp          " swap files
-set undodir  =~/.vimfiles/undo         " undo files
+set backupdir=~/.vimfiles/bak//          " backup files
+set noswapfile
+"set directory=~/.vimfiles/swp//          " swap files
+set undodir  =~/.vimfiles/undo//         " undo files
 set undofile                      " persistent undo
 set tabstop=4
 set shiftwidth=4
@@ -186,8 +191,9 @@ let vimwiki_perso = {}
 let vimwiki_perso.path = '~/share/vimwiki_perso'
 let vimwiki_perso.path_html = '~/share/sites/perso'
 let g:vimwiki_list = [vimwiki, vimwiki_perso]
-autocmd! BufWritePost *.wiki silent Vimwiki2HTML
 let g:vimwiki_folding='expr'
+autocmd FileType vimwiki set nonumber | set linebreak
+autocmd! BufWritePost *.wiki silent Vimwiki2HTML
 "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
 "}}}
 
@@ -197,6 +203,8 @@ let g:startify_bookmarks = []
 let g:startify_bookmarks += ['~/.muttrc-local']
 let g:startify_bookmarks += ['~/.config/i3/config']
 let g:startify_bookmarks += ['~/.config/i3/status.py']
+let g:startify_bookmarks += ['~/.config/vimb/config']
+let g:startify_bookmarks += ['/home/david/share/vimwiki_perso/index.wiki']
 "}}}
 
 "Gist setup"{{{
