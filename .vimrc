@@ -1,4 +1,6 @@
 set nocompatible               " be iMproved
+scriptencoding utf-8
+set encoding=utf-8
 
 " Plugins"{{{
 filetype off                   " required!
