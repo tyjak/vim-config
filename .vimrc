@@ -49,7 +49,7 @@ filetype plugin indent on
 " theme solarized"{{{
 set t_Co=16
 set background=dark
-if filereadable( expand("$HOME/.vim/colors/railscast.vim") )
+if filereadable( expand("~/.vim/bundle/Solarized/colors/solarized.vim") )
     colorscheme solarized
 endif
 
