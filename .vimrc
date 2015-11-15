@@ -3,7 +3,10 @@ set nocompatible               " be iMproved
 " Plugins"{{{
 filetype off                   " required!
 
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Solarized'
 Plugin 'vimwiki'
@@ -38,14 +41,13 @@ Plugin 'tpope/vim-markdown'
 " Bundle 'FuzzyFinder'
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
-
-filetype plugin indent on     " required! "}}}
+call vundle#end()
+filetype plugin indent on
 
 " theme solarized"{{{
 set t_Co=16
 set background=dark
 colorscheme solarized
-"}}}
 
 " easy vimrc quickopen, autoreload"{{{
 autocmd! BufWritePost $MYVIMRC so $MYVIMRC
@@ -54,7 +56,6 @@ autocmd BufRead,BufNew *.md set filetype=markdown
 map ,v :tabe $MYVIMRC<CR>
 map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
-"}}}
 
 " vim airline + font +gvim "{{{
 " 
@@ -72,7 +73,6 @@ let g:airline_powerline_fonts = 1
 set laststatus=2
 let g:airline#extensions#branch#enabled = 1
 set colorcolumn=80
-"}}}
 
 " divers"{{{
 syntax on
@@ -104,7 +104,6 @@ set wildmode=list:longest,full
 set hidden
 set cryptmethod=blowfish2
 set nofoldenable
-"}}}
 
 " Mappings"{{{
 
@@ -167,18 +166,16 @@ nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
 imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <C-f> [s1z=<c-o>
 
-"nmap t :tabe<cr>"}}}
+"nmap t :tabe<cr>
 
 " quelques commandes"{{{
 command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
 command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
-" }}}
 
 " Quelques abbréviations"{{{
 iab <expr> hms strftime("%T")
 iab <expr> ymd strftime("%y%m%d")
 iab <expr> --c strftime("%c")
-"}}}
 
 "Plugin setup"{{{
 
@@ -195,7 +192,6 @@ let g:vimwiki_folding='expr'
 autocmd FileType vimwiki set nonumber | set linebreak
 autocmd! BufWritePost *.wiki silent Vimwiki2HTML
 "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
-"}}}
 
 "Startify setup"{{{
 let g:startify_change_to_vcs_root = 1
@@ -205,14 +201,11 @@ let g:startify_bookmarks += ['~/.config/i3/config']
 let g:startify_bookmarks += ['~/.config/i3/status.py']
 let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['/home/david/share/vimwiki_perso/index.wiki']
-"}}}
 
 "Gist setup"{{{
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
-"}}}
 
-"}}}
 
 " vim: set foldmethod=marker:
