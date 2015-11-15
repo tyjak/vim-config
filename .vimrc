@@ -47,7 +47,9 @@ filetype plugin indent on
 " theme solarized"{{{
 set t_Co=16
 set background=dark
-colorscheme solarized
+if filereadable( expand("$HOME/.vim/colors/railscast.vim") )
+    colorscheme solarized
+endif
 
 " easy vimrc quickopen, autoreload"{{{
 autocmd! BufWritePost $MYVIMRC so $MYVIMRC
