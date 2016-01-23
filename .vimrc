@@ -30,6 +30,7 @@ Plugin 'vimoutliner/vimoutliner'
 Plugin 'osyo-manga/vim-over'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'tpope/vim-markdown'
+Plugin 'davidhalter/jedi-vim'
 "Plugin 'itchyny/calendar.vim'
 "Plugin 'https://github.com/jaxbot/browserlink.vim'
 
@@ -61,6 +62,7 @@ autocmd! BufRead,BufNew *.md set filetype=markdown
 map ,v :tabe $MYVIMRC<CR>
 map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
+map ,w :tabe ~/.config/vimb/config<CR>
 
 " vim airline + font +gvim "{{{
 " 
@@ -109,6 +111,9 @@ set wildmode=list:longest,full
 set hidden
 set cryptmethod=blowfish2
 set nofoldenable
+
+" to open full link
+let g:netrw_gx="<cWORD>"
 
 " Mappings"{{{
 
@@ -212,6 +217,7 @@ let g:startify_bookmarks += ['~/.muttrc-local']
 let g:startify_bookmarks += ['~/.config/i3/config']
 let g:startify_bookmarks += ['~/.config/i3/status.py']
 let g:startify_bookmarks += ['~/.config/vimb/config']
+let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['/home/david/share/vimwiki_perso/index.wiki']
 
 "Gist setup"{{{
