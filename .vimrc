@@ -16,6 +16,7 @@ Plugin 'fugitive.vim'
 Plugin 'bling/vim-airline'
 Plugin 'loremipsum'
 Plugin 'surround.vim'
+Plugin 'dbext.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'mattn/calendar-vim'
 Plugin 'mattn/webapi-vim'
@@ -55,7 +56,7 @@ endif
 
 " easy vimrc quickopen, autoreload"{{{
 autocmd! BufWritePost $MYVIMRC so $MYVIMRC
-autocmd BufRead,BufNew *.md set filetype=markdown
+autocmd! BufRead,BufNew *.md set filetype=markdown
 
 map ,v :tabe $MYVIMRC<CR>
 map ,V :source $MYVIMRC<CR>
@@ -193,9 +194,16 @@ let vimwiki_perso.path = '~/share/vimwiki_perso'
 let vimwiki_perso.path_html = '~/share/sites/perso'
 let g:vimwiki_list = [vimwiki, vimwiki_perso]
 let g:vimwiki_folding='expr'
-autocmd FileType vimwiki set nonumber | set linebreak
-autocmd! BufWritePost *.wiki silent Vimwiki2HTML
-"au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
+
+augroup filemng
+    autocmd!
+    autocmd FileType vimwiki set nonumber | set linebreak
+    autocmd BufWritePost *.wiki silent Vimwiki2HTML
+    "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
+    autocmd FileType help nnoremap q :q<CR>
+    autocmd FileType help nnoremap <space> f\|
+    autocmd FileType help nnoremap <CR> <C-]>
+augroup END
 
 "Startify setup"{{{
 let g:startify_change_to_vcs_root = 1
