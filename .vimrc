@@ -24,13 +24,15 @@ Plugin 'mattn/gist-vim'
 Plugin 'mtth/scratch.vim'
 Plugin 'mhinz/vim-startify'
 Plugin 'yuratomo/w3m.vim'
-Plugin 'airblade/vim-gitgutter'
+"Plugin 'airblade/vim-gitgutter'
 Plugin 'pangloss/vim-javascript'
 Plugin 'vimoutliner/vimoutliner'
 Plugin 'osyo-manga/vim-over'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'tpope/vim-markdown'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'mbbill/undotree'
+Plugin 'quickfixsigns'
 "Plugin 'itchyny/calendar.vim'
 "Plugin 'https://github.com/jaxbot/browserlink.vim'
 
@@ -144,6 +146,9 @@ nnoremap <C-b> :buffers<CR>:buffer<Space>
 " edit in a new tab with Startify
 nnoremap <C-t> :tabnew<CR>:Startify<CR>
 
+" toggle undotree
+nnoremap U :UndotreeToggle<CR>:UndotreeFocus<CR>
+
 " close current tab
 "nnoremap <C-d> :tabclose<cr>
 
@@ -177,6 +182,9 @@ imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <C-f> [s1z=<c-o>
 
 "nmap t :tabe<cr>
+
+" pour vimoutliner
+let maplocalleader = ',,'
 
 " quelques commandes"{{{
 command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
