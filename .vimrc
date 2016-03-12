@@ -2,58 +2,56 @@ set nocompatible               " be iMproved
 scriptencoding utf-8
 set encoding=utf-8
 
+" bootstrap to auto-install vim-plug
+so ~/.vim/bootstrap.vim
+
 " Plugins"{{{
-filetype off                   " required!
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'Solarized'
-Plugin 'vimwiki'
-Plugin 'fugitive.vim'
-Plugin 'bling/vim-airline'
-Plugin 'loremipsum'
-Plugin 'surround.vim'
-Plugin 'dbext.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'mattn/calendar-vim'
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/gist-vim'
-Plugin 'mtth/scratch.vim'
-Plugin 'mhinz/vim-startify'
-Plugin 'yuratomo/w3m.vim'
-"Plugin 'airblade/vim-gitgutter'
-Plugin 'pangloss/vim-javascript'
-Plugin 'vimoutliner/vimoutliner'
-Plugin 'osyo-manga/vim-over'
-Plugin 'chase/vim-ansible-yaml'
-Plugin 'tpope/vim-markdown'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'mbbill/undotree'
-Plugin 'quickfixsigns'
-"Plugin 'itchyny/calendar.vim'
-"Plugin 'https://github.com/jaxbot/browserlink.vim'
-
-" original repos on github
-" Bundle 'tpope/vim-fugitive'
-" Bundle 'Lokaltog/vim-easymotion'
-" Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Bundle 'tpope/vim-rails.git'
+Plug 'Solarized'
+Plug 'vimwiki'
+Plug 'fugitive.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'loremipsum'
+Plug 'surround.vim'
+Plug 'dbext.vim'
+Plug 'mattn/emmet-vim'
+Plug 'mattn/calendar-vim'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
+Plug 'mhinz/vim-startify'
+Plug 'yuratomo/w3m.vim'
+Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
+Plug 'vimoutliner/vimoutliner', { 'for' : 'outline' }
+Plug 'osyo-manga/vim-over'
+Plug 'chase/vim-ansible-yaml', { 'for' : 'yaml' }
+Plug 'tpope/vim-markdown', { 'for' : 'markdown' }
+Plug 'mbbill/undotree'
+Plug 'quickfixsigns'
+Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
+Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
 
 " vim-scripts repos
-" Bundle 'L9'
-" Bundle 'FuzzyFinder'
-" non github repos
-" Bundle 'git://git.wincent.com/command-t.git'
-call vundle#end()
+"Plug 'mtth/scratch.vim'
+"Plug 'itchyny/calendar.vim'
+"Plug 'https://github.com/jaxbot/browserlink.vim'
+"Plug 'tpope/vim-fugitive'
+"Plug 'Lokaltog/vim-easymotion'
+"Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
+"Plug 'tpope/vim-rails.git'
+"Plug 'L9'
+"Plug 'FuzzyFinder'
+
+call plug#end()
+
 filetype plugin indent on
 
 " theme solarized"{{{
 set t_Co=16
 set background=dark
-if filereadable( expand("~/.vim/bundle/Solarized/colors/solarized.vim") )
+if filereadable( expand("~/.vim/plugged/Solarized/colors/solarized.vim") )
     colorscheme solarized
 endif
 
@@ -159,6 +157,9 @@ nnoremap U :UndotreeToggle<CR>:UndotreeFocus<CR>
 map j gj
 map k gk
 
+" Join line without break as space
+map J gJ
+
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
 map <c-space> ?
@@ -226,7 +227,7 @@ let g:startify_bookmarks += ['~/.config/i3/config']
 let g:startify_bookmarks += ['~/.config/i3/status.py']
 let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['~/.config/vimb/bookmark']
-let g:startify_bookmarks += ['/home/david/share/vimwiki_perso/index.wiki']
+let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
 "Gist setup"{{{
 let g:gist_clip_command = 'xclip -selection clipboard'
