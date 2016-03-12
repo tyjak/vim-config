@@ -1,0 +1,28 @@
+
+
+
+" vimwiki setup"{{{
+"vimwiki conversion auto des fichiers du wiki en html
+let vimwiki = {}
+let vimwiki.path = '~/vimwiki/'
+let vimwiki.path_html = '~/Sites/tyjak.github.io/'
+let vimwiki_perso = {}
+let vimwiki_perso.path = '~/share/vimwiki_perso'
+let vimwiki_perso.path_html = '~/share/sites/perso'
+let g:vimwiki_list = [vimwiki, vimwiki_perso]
+let g:vimwiki_folding='expr'
+
+"Startify setup"{{{
+let g:startify_change_to_vcs_root = 1
+let g:startify_bookmarks = []
+let g:startify_bookmarks += ['~/.muttrc-local']
+let g:startify_bookmarks += ['~/.config/i3/config']
+let g:startify_bookmarks += ['~/.config/i3/status.py']
+let g:startify_bookmarks += ['~/.config/vimb/config']
+let g:startify_bookmarks += ['~/.config/vimb/bookmark']
+let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
+
+
+if !empty(glob("/mylib/__vim/adsnovo.com"))
+    so /mylib/__vim/adsnovo.com
+endif

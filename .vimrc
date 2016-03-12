@@ -26,7 +26,7 @@ Plug 'yuratomo/w3m.vim'
 Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
 Plug 'vimoutliner/vimoutliner', { 'for' : 'outline' }
 Plug 'osyo-manga/vim-over'
-Plug 'chase/vim-ansible-yaml', { 'for' : 'yaml' }
+Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
 Plug 'tpope/vim-markdown', { 'for' : 'markdown' }
 Plug 'mbbill/undotree'
 Plug 'quickfixsigns'
@@ -196,19 +196,7 @@ iab <expr> hms strftime("%T")
 iab <expr> ymd strftime("%y%m%d")
 iab <expr> --c strftime("%c")
 
-"Plugin setup"{{{
-
-" vimwiki setup"{{{
-"vimwiki conversion auto des fichiers du wiki en html
-let vimwiki = {}
-let vimwiki.path = '~/vimwiki/'
-let vimwiki.path_html = '~/Sites/tyjak.github.io/'
-let vimwiki_perso = {}
-let vimwiki_perso.path = '~/share/vimwiki_perso'
-let vimwiki_perso.path_html = '~/share/sites/perso'
-let g:vimwiki_list = [vimwiki, vimwiki_perso]
-let g:vimwiki_folding='expr'
-
+" quelques autocommand"{{{
 augroup filemng
     autocmd!
     autocmd FileType vimwiki set nonumber | set linebreak
@@ -219,20 +207,14 @@ augroup filemng
     autocmd FileType help nnoremap <CR> <C-]>
 augroup END
 
-"Startify setup"{{{
-let g:startify_change_to_vcs_root = 1
-let g:startify_bookmarks = []
-let g:startify_bookmarks += ['~/.muttrc-local']
-let g:startify_bookmarks += ['~/.config/i3/config']
-let g:startify_bookmarks += ['~/.config/i3/status.py']
-let g:startify_bookmarks += ['~/.config/vimb/config']
-let g:startify_bookmarks += ['~/.config/vimb/bookmark']
-let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
+"Plugin setup"{{{
 
 "Gist setup"{{{
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
 
+" settings perso
+so ~/.vim/vimrc.local
 
 " vim: set foldmethod=marker:
