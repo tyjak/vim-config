@@ -23,6 +23,6 @@ let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
 
-if !empty(glob("/mylib/__vim/adsnovo.com"))
-    so /mylib/__vim/adsnovo.com
+if !empty(glob("~/.vim/adsnovo/vimrc"))
+    so ~/.vim/adsnovo/vimrc
 endif
