@@ -32,6 +32,9 @@ Plug 'mbbill/undotree'
 Plug 'quickfixsigns'
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
 Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
+Plug 'majutsushi/tagbar'
+Plug 'joonty/vim-phpqa'
+Plug 'StanAngeloff/php.vim'
 
 " vim-scripts repos
 "Plug 'mtth/scratch.vim'
