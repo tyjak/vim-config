@@ -15,6 +15,7 @@ let g:vimwiki_folding='expr'
 "Startify setup"{{{
 let g:startify_change_to_vcs_root = 1
 let g:startify_bookmarks = []
+let g:startify_bookmarks += ['~/Documents/']
 let g:startify_bookmarks += ['~/.muttrc-local']
 let g:startify_bookmarks += ['~/.config/i3/config']
 let g:startify_bookmarks += ['~/.config/i3/status.py']

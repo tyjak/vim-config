@@ -24,10 +24,11 @@ Plug 'mattn/gist-vim'
 Plug 'mhinz/vim-startify'
 Plug 'yuratomo/w3m.vim'
 Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
-Plug 'vimoutliner/vimoutliner', { 'for' : 'outline' }
+Plug 'vimoutliner/vimoutliner', { 'for' : ['votl','vimwiki'] }
 Plug 'osyo-manga/vim-over'
 Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
 Plug 'tpope/vim-markdown', { 'for' : 'markdown' }
+Plug 'tpope/vim-unimpaired'
 Plug 'mbbill/undotree'
 Plug 'quickfixsigns'
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
@@ -35,6 +36,9 @@ Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
 Plug 'majutsushi/tagbar'
 Plug 'joonty/vim-phpqa'
 Plug 'StanAngeloff/php.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'dm4/vim-writer'
+Plug 'jacekd/vim-iawriter'
 
 " vim-scripts repos
 "Plug 'mtth/scratch.vim'
@@ -50,6 +54,14 @@ Plug 'StanAngeloff/php.vim'
 call plug#end()
 
 filetype plugin indent on
+
+" remap []
+"nmap < [
+"nmap > ]
+"omap < [
+"omap > ]
+"xmap < [
+"xmap > ]
 
 " theme solarized"{{{
 set t_Co=16
@@ -161,7 +173,7 @@ map j gj
 map k gk
 
 " Join line without break as space
-map J gJ
+"map J gJ
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
@@ -171,10 +183,10 @@ map <c-space> ?
 map <silent> <leader><space> :noh<cr>
 
 " Smart way to move between windows
-nnoremap J <C-W>j
-nnoremap K <C-W>k
-nnoremap H <C-W>h
-nnoremap L <C-W>l
+"nnoremap J <C-W>j
+"nnoremap K <C-W>k
+"nnoremap H <C-W>h
+"nnoremap L <C-W>l
 
 " open or create file under cursor
 nnoremap gf :e <cfile><CR>
@@ -184,6 +196,9 @@ nmap <silent> <leader>se :set spelllang=en spell!<CR>
 nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
 imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <C-f> [s1z=<c-o>
+
+"Goyo
+map <C-g> :Goyo 50%+25%x50%-25%<CR>
 
 "nmap t :tabe<cr>
 
@@ -198,17 +213,50 @@ command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
 iab <expr> hms strftime("%T")
 iab <expr> ymd strftime("%y%m%d")
 iab <expr> --c strftime("%c")
+iab <expr> --f strftime("%F")
 
 " quelques autocommand"{{{
 augroup filemng
     autocmd!
     autocmd FileType vimwiki set nonumber | set linebreak
-    autocmd BufWritePost *.wiki silent Vimwiki2HTML
+    "autocmd BufWritePost *.wiki silent Vimwiki2HTML
     "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
-    autocmd FileType help nnoremap q :q<CR>
+    autocmd FileType help nnoremap <S-q> :q<CR>
     autocmd FileType help nnoremap <space> f\|
     autocmd FileType help nnoremap <CR> <C-]>
 augroup END
+
+" Goyo settings
+"let g:goyo_width=100
+"let g:goyo_height=90
+"let g:goyo_margin_top=2
+"let g:goyo_margin_bottom=2
+
+function! s:goyo_enter()
+  "colorscheme iawriter
+  if has('gui_running')
+  endif
+  set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 11
+  set background=light
+  highlight Cursor guifg=#859900 guibg=white
+  highlight iCursor guifg=white guibg=#2aa198
+  highlight vCursor guifg=#d33682 guibg=white
+  set guicursor=n-v-c:block-Cursor
+  set guicursor+=i:ver100-iCursor
+  set guicursor+=v:ver100-vCursor
+  set guicursor+=n-v-c:blinkon0
+  set guicursor+=i:blinkwait10
+  set linespace=4
+endfunction
+
+function! s:goyo_leave()
+  "colorscheme solarized
+  set background=dark
+  set linespace=0
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 "Plugin setup"{{{
 
