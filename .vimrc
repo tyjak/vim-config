@@ -9,6 +9,7 @@ so ~/.vim/bootstrap.vim
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'ryanoasis/vim-devicons'
 Plug 'Solarized'
 Plug 'vimwiki'
 Plug 'fugitive.vim'
@@ -83,6 +84,8 @@ map ,w :tabe ~/.config/vimb/config<CR>
 " 
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
+"set guifont=MesloLGSDZ\ Nerd\ Font\ 9
+"set guifont=TerminusFont \9
 set guioptions-=m
 set guioptions-=l
 set guioptions-=r
@@ -90,10 +93,11 @@ set guioptions-=b
 set guioptions-=T
 set guioptions-=F
 set guioptions-=e
-set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 9
-let g:airline_powerline_fonts = 1
 set laststatus=2
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
 set colorcolumn=80
 
 " divers"{{{
@@ -101,6 +105,7 @@ syntax on
 set history=10000
 set magic 
 set backupdir=~/.vimfiles/bak//          " backup files
+set backup
 set noswapfile
 "set directory=~/.vimfiles/swp//          " swap files
 set undodir  =~/.vimfiles/undo//         " undo files
@@ -129,6 +134,7 @@ set nofoldenable
 
 " to open full link
 let g:netrw_gx="<cWORD>"
+let g:netrw_browsex_viewer= "/home/david/share/bin/vimb"
 
 " Mappings"{{{
 
@@ -198,7 +204,7 @@ imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <C-f> [s1z=<c-o>
 
 "Goyo
-map <C-g> :Goyo 50%+25%x50%-25%<CR>
+map <C-g> :Goyo<CR>
 
 "nmap t :tabe<cr>
 
@@ -227,7 +233,7 @@ augroup filemng
 augroup END
 
 " Goyo settings
-"let g:goyo_width=100
+let g:goyo_width=100
 "let g:goyo_height=90
 "let g:goyo_margin_top=2
 "let g:goyo_margin_bottom=2
