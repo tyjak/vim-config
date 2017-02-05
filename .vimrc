@@ -10,7 +10,9 @@ so ~/.vim/bootstrap.vim
 call plug#begin('~/.vim/plugged')
 
 Plug 'ryanoasis/vim-devicons'
-Plug 'Solarized'
+Plug 'lilydjwg/colorizer'
+"Plug 'altercation/vim-colors-solarized'
+Plug 'lifepillar/vim-solarized8'
 Plug 'vimwiki'
 Plug 'fugitive.vim'
 Plug 'vim-airline/vim-airline'
@@ -32,6 +34,7 @@ Plug 'tpope/vim-markdown', { 'for' : 'markdown' }
 Plug 'tpope/vim-unimpaired'
 Plug 'mbbill/undotree'
 Plug 'quickfixsigns'
+"Plug 'airblade/vim-gitgutter'
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
 Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
 Plug 'majutsushi/tagbar'
@@ -64,12 +67,18 @@ filetype plugin indent on
 "xmap < [
 "xmap > ]
 
+"TODO rendre possible le mode dégradé -> True color -> 256 -> 16
 " theme solarized"{{{
-set t_Co=16
+set t_Co=256
+set termguicolors
+let g:solarized_visibility = "normal"
+colorscheme solarized8_dark
+"if filereadable( expand("~/.vim/plugged/vim-colors-solarized/colors/solarized.vim") )
+"    " Color scheme
+"    colorscheme solarized
+"endif
+
 set background=dark
-if filereadable( expand("~/.vim/plugged/Solarized/colors/solarized.vim") )
-    colorscheme solarized
-endif
 
 " easy vimrc quickopen, autoreload"{{{
 autocmd! BufWritePost $MYVIMRC so $MYVIMRC
@@ -134,7 +143,7 @@ set nofoldenable
 
 " to open full link
 let g:netrw_gx="<cWORD>"
-let g:netrw_browsex_viewer= "/home/david/share/bin/vimb"
+let g:netrw_browsex_viewer= "xdg-open"
 
 " Mappings"{{{
 

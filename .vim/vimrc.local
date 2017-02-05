@@ -23,7 +23,7 @@ let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
-function UnquotedText()
+function! UnquotedText()
     '<,'>!php -r "print utf8_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
 endfunction
 

@@ -17,7 +17,8 @@ syntax enable
 set guioptions=aiMr
 
 " to open full link
-let g:netrw_gx="<cWORD>"
+let g:netrw_gx="<cfile>"
+let g:netrw_browsex_viewer="xdg-open"
 
 " Key bindings.
 nmap b <C-B><C-G>
@@ -30,3 +31,4 @@ nmap <Down> <C-E>
 nmap ^V <C-F><C-G>
 nmap <space> /https\?:\/\/<CR>
 nmap <CR> gx
+
