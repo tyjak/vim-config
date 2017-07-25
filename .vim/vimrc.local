@@ -9,7 +9,9 @@ let vimwiki.path_html = '~/Sites/tyjak.github.io/'
 let vimwiki_perso = {}
 let vimwiki_perso.path = '~/share/vimwiki_perso'
 let vimwiki_perso.path_html = '~/share/sites/perso'
-let g:vimwiki_list = [vimwiki, vimwiki_perso]
+let vimwiki_boulot = {}
+let vimwiki_boulot.path = '~/share/vimwiki_boulot'
+let g:vimwiki_list = [vimwiki, vimwiki_perso, vimwiki_boulot]
 let g:vimwiki_folding='expr'
 
 "Startify setup"{{{

@@ -10,6 +10,7 @@ so ~/.vim/bootstrap.vim
 call plug#begin('~/.vim/plugged')
 
 Plug 'Solarized'
+Plug 'ryanoasis/nerd-fonts'
 Plug 'vimwiki'
 Plug 'fugitive.vim'
 Plug 'vim-airline/vim-airline'
@@ -32,13 +33,18 @@ Plug 'tpope/vim-unimpaired'
 Plug 'mbbill/undotree'
 Plug 'quickfixsigns'
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
-Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
 Plug 'majutsushi/tagbar'
 Plug 'joonty/vim-phpqa'
 Plug 'StanAngeloff/php.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'dm4/vim-writer'
 Plug 'jacekd/vim-iawriter'
+Plug 'vexxor/phpdoc.vim'
+Plug 'vim-scripts/Ranger.vim'
+if !empty(glob("~/.vim/otherplugin"))
+    so ~/.vim/otherplugin
+endif
+
 
 " vim-scripts repos
 "Plug 'mtth/scratch.vim'
@@ -90,7 +96,8 @@ set guioptions-=b
 set guioptions-=T
 set guioptions-=F
 set guioptions-=e
-set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 9
+"set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 10
+set guifont=MesloLGSDZ\ Nerd\ Font\ 10
 let g:airline_powerline_fonts = 1
 set laststatus=2
 let g:airline#extensions#branch#enabled = 1
@@ -119,7 +126,7 @@ set smartcase
 set autoindent
 set ruler
 set cursorline
-set list listchars=nbsp:Â¤,tab:Â·Â·,trail:Â¤,extends:â–¶,precedes:â—€
+set list listchars=nbsp:¤,tab:··,trail:¤,extends:¿,precedes:¿
 " long completion menu
 set wildmenu
 set wildmode=list:longest,full
@@ -135,7 +142,7 @@ let g:netrw_gx="<cWORD>"
 " remaping for azerty
 let mapleader = ","
 " remap c-[ for azerty keyboard
-" noremap <C-Ã¹> <C-]>
+" noremap <C-ù> <C-]>
 
 " Switch CWD to the directory of the open buffer
 map <leader>; :cd %:p:h<cr>:pwd<cr>
@@ -198,7 +205,7 @@ imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <C-f> [s1z=<c-o>
 
 "Goyo
-map <C-g> :Goyo 50%+25%x50%-25%<CR>
+"map <C-g> :Goyo 50%+25%x50%-25%<CR>
 
 "nmap t :tabe<cr>
 
@@ -209,7 +216,7 @@ let maplocalleader = ',,'
 command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
 command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
 
-" Quelques abbrÃ©viations"{{{
+" Quelques abbréviations"{{{
 iab <expr> hms strftime("%T")
 iab <expr> ymd strftime("%y%m%d")
 iab <expr> --c strftime("%c")
