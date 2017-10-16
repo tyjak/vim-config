@@ -251,7 +251,8 @@ function! s:goyo_enter()
   "colorscheme iawriter
   if has('gui_running')
   endif
-  set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 11
+  colorscheme solarized8_light
+  "set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 11
   set background=light
   highlight Cursor guifg=#859900 guibg=white
   highlight iCursor guifg=white guibg=#2aa198

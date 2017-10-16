@@ -22,8 +22,22 @@ let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
-command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
-command! -range Unquotedtext <line1>,<line2>!php -r "print utf8_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
+"TO TEST
+"command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
+"command! -range Unquotedtext <line1>,<line2>!php -r "print utf7_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
+
+function! UnquotedText()
+    '<,'>!php -r "print utf8_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
+endfunction
+
+function! UrlEncode()
+    '<,'>!php -r "print rawurlencode(file_get_contents('php://stdin','r'));"
+endfunction
+
+function! HtmlEntities()
+    '<,'>!php -r "print htmlentities(file_get_contents('php://stdin','r'));"
+endfunction
+
 
 if !empty(glob("~/.vim/adsnovo/vimrc"))
     so ~/.vim/adsnovo/vimrc
