@@ -26,40 +26,41 @@ Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
 Plug 'mhinz/vim-startify'
 Plug 'yuratomo/w3m.vim'
-Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
 Plug 'vimoutliner/vimoutliner', { 'for' : ['votl','vimwiki'] }
-Plug 'osyo-manga/vim-over'
+Plug 'osyo-manga/vim-over' "search and replace improvment
 Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
 Plug 'tpope/vim-markdown', { 'for' : 'markdown' }
-Plug 'tpope/vim-unimpaired'
 Plug 'mbbill/undotree'
 Plug 'quickfixsigns'
 "Plug 'airblade/vim-gitgutter'
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
 Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
-Plug 'majutsushi/tagbar'
-Plug 'joonty/vim-phpqa'
-Plug 'StanAngeloff/php.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'dm4/vim-writer'
 Plug 'jacekd/vim-iawriter'
+Plug 'jamessan/vim-gnupg'
+Plug 'drawit'
 
 " vim-scripts repos
+"Plug 'tpope/vim-unimpaired'
 "Plug 'mtth/scratch.vim'
 "Plug 'itchyny/calendar.vim'
 "Plug 'https://github.com/jaxbot/browserlink.vim'
-"Plug 'tpope/vim-fugitive'
 "Plug 'Lokaltog/vim-easymotion'
 "Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 "Plug 'tpope/vim-rails.git'
 "Plug 'L9'
 "Plug 'FuzzyFinder'
 
+if !empty(glob("~/.vim/otherplugin"))
+    so ~/.vim/otherplugin
+endif
+
 call plug#end()
 
 filetype plugin indent on
 
-" remap []
+" remap [] for tpope/vim-unimpaired
 "nmap < [
 "nmap > ]
 "omap < [
@@ -212,9 +213,6 @@ nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
 imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <C-f> [s1z=<c-o>
 
-"Goyo
-map <C-g> :Goyo<CR>
-
 "nmap t :tabe<cr>
 
 " pour vimoutliner
@@ -241,7 +239,12 @@ augroup filemng
     autocmd FileType help nnoremap <CR> <C-]>
 augroup END
 
-" Goyo settings
+" Goyo"{{{
+augroup goyo
+    au!
+    map <C-g> :Goyo<CR>
+augroup END
+
 let g:goyo_width=100
 "let g:goyo_height=90
 "let g:goyo_margin_top=2
@@ -275,6 +278,8 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 "Plugin setup"{{{
+
+let g:GPGDefaultRecipients = ['david@tyjak.net']
 
 "Gist setup"{{{
 let g:gist_clip_command = 'xclip -selection clipboard'
