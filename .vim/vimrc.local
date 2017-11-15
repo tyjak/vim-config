@@ -1,6 +1,3 @@
-
-
-
 " vimwiki setup"{{{
 "vimwiki conversion auto des fichiers du wiki en html
 let vimwiki = {}
@@ -9,7 +6,9 @@ let vimwiki.path_html = '~/Sites/tyjak.github.io/'
 let vimwiki_perso = {}
 let vimwiki_perso.path = '~/share/vimwiki_perso'
 let vimwiki_perso.path_html = '~/share/sites/perso'
-let g:vimwiki_list = [vimwiki, vimwiki_perso]
+let vimwiki_boulot = {}
+let vimwiki_boulot.path = '~/share/vimwiki_boulot'
+let g:vimwiki_list = [vimwiki, vimwiki_perso, vimwiki_boulot]
 let g:vimwiki_folding='expr'
 
 "Startify setup"{{{
@@ -23,8 +22,20 @@ let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
+"TO TEST
+"command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
+"command! -range Unquotedtext <line1>,<line2>!php -r "print utf7_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
+
 function! UnquotedText()
     '<,'>!php -r "print utf8_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
+endfunction
+
+function! UrlEncode()
+    '<,'>!php -r "print rawurlencode(file_get_contents('php://stdin','r'));"
+endfunction
+
+function! HtmlEntities()
+    '<,'>!php -r "print htmlentities(file_get_contents('php://stdin','r'));"
 endfunction
 
 
