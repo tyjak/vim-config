@@ -40,6 +40,15 @@ Plug 'dm4/vim-writer'
 Plug 'jacekd/vim-iawriter'
 Plug 'jamessan/vim-gnupg'
 Plug 'drawit'
+Plug 'wincent/ferret'
+Plug 'fszymanski/deoplete-emoji'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 " vim-scripts repos
 "Plug 'tpope/vim-unimpaired'
@@ -139,7 +148,6 @@ set list listchars=nbsp:¤,tab:··,trail:¤,extends:▶,precedes:◀
 set wildmenu
 set wildmode=list:longest,full
 set hidden
-set cryptmethod=blowfish2
 set nofoldenable
 
 " to open full link
@@ -226,6 +234,7 @@ command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
 iab <expr> hms strftime("%T")
 iab <expr> ymd strftime("%y%m%d")
 iab <expr> --c strftime("%c")
+iab <expr> --d strftime("%a %d %b %Y")
 iab <expr> --f strftime("%F")
 
 " quelques autocommand"{{{
@@ -278,6 +287,10 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 "Plugin setup"{{{
+
+let g:deoplete#enable_at_startup = 1
+"call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
+
 
 let g:GPGDefaultRecipients = ['david@tyjak.net']
 
