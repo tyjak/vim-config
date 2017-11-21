@@ -149,6 +149,7 @@ set wildmenu
 set wildmode=list:longest,full
 set hidden
 set nofoldenable
+set path=.,**
 
 " to open full link
 let g:netrw_gx="<cWORD>"
@@ -213,7 +214,7 @@ map <silent> <leader><space> :noh<cr>
 "nnoremap L <C-W>l
 
 " open or create file under cursor
-nnoremap gf :e <cfile><CR>
+" nnoremap gf :e <cfile><CR>
 
 " dictionary
 nmap <silent> <leader>se :set spelllang=en spell!<CR>
