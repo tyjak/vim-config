@@ -1,5 +1,4 @@
 set nocompatible               " be iMproved
-scriptencoding utf-8
 set encoding=utf-8
 
 " bootstrap to auto-install vim-plug
@@ -39,8 +38,9 @@ Plug 'StanAngeloff/php.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'dm4/vim-writer'
 Plug 'jacekd/vim-iawriter'
-Plug 'vexxor/phpdoc.vim'
 Plug 'vim-scripts/Ranger.vim'
+Plug 'vim-scripts/DirDiff.vim'
+Plug 'jamessan/vim-gnupg'
 if !empty(glob("~/.vim/otherplugin"))
     so ~/.vim/otherplugin
 endif
@@ -213,7 +213,7 @@ nmap <C-f> [s1z=<c-o>
 let maplocalleader = ',,'
 
 " quelques commandes"{{{
-command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
+command! -nargs=1 Mks mksession! ~/.vimfiles/sessions/<args>
 command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
 
 " Quelques abbréviations"{{{
@@ -271,6 +271,14 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
+"
+
+" régalge pour DirDiff plugin
+let g:DirDiffForceLang = "C"
+let g:DirDiffTextFiles = "Les fichiers "
+let g:DirDiffTextAnd = " et "
+let g:DirDiffTextDiffer = " sont différents"
+let g:DirDiffTextOnlyIn = "Seulement dans "
 
 " settings perso
 so ~/.vim/vimrc.local
