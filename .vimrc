@@ -42,6 +42,7 @@ Plug 'jamessan/vim-gnupg'
 Plug 'drawit'
 Plug 'wincent/ferret'
 Plug 'fszymanski/deoplete-emoji'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -134,10 +135,11 @@ set shiftwidth=4
 set expandtab
 set smarttab
 set showcmd
-set number
 set showmatch
+set number
 set hlsearch
 set incsearch
+set gdefault
 set ignorecase
 set smartcase
 set autoindent
@@ -149,6 +151,7 @@ set wildmenu
 set wildmode=list:longest,full
 set hidden
 set nofoldenable
+set relativenumber
 set path=.,**
 
 " to open full link
