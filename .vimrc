@@ -136,10 +136,12 @@ set shiftwidth=4
 set expandtab
 set smarttab
 set showcmd
-set number
 set showmatch
+set number
+set relativenumber
 set hlsearch
 set incsearch
+set gdefault
 set ignorecase
 set smartcase
 set autoindent
