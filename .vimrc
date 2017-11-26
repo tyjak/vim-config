@@ -42,6 +42,7 @@ Plug 'jamessan/vim-gnupg'
 Plug 'drawit'
 Plug 'wincent/ferret'
 Plug 'fszymanski/deoplete-emoji'
+Plug 'junegunn/fzf.vim'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -76,6 +77,7 @@ filetype plugin indent on
 "omap > ]
 "xmap < [
 "xmap > ]
+set rtp+=/usr/bin/fzf
 
 "TODO rendre possible le mode dégradé -> True color -> 256 -> 16
 " theme solarized"{{{
