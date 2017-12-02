@@ -43,6 +43,8 @@ Plug 'drawit'
 Plug 'wincent/ferret'
 Plug 'fszymanski/deoplete-emoji'
 Plug 'junegunn/fzf.vim'
+Plug 'SirVer/ultisnips'
+Plug 'will133/vim-dirdiff'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -91,6 +93,7 @@ colorscheme solarized8_dark
 "endif
 
 set background=dark
+set grepprg=rg\ --vimgrep
 
 " easy vimrc quickopen, autoreload"{{{
 autocmd! BufWritePost $MYVIMRC so $MYVIMRC
