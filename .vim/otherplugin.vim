@@ -1,4 +1,4 @@
-if !empty(glob("~/.vim/work/plugin"))
+if !empty(glob("~/.vim/work/plugin.vim"))
     so ~/.vim/work/plugin.vim
 endif
 if !empty(glob("~/.vim/adsnovo/plugin"))

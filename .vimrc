@@ -45,6 +45,7 @@ Plug 'fszymanski/deoplete-emoji'
 Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
 Plug 'will133/vim-dirdiff'
+Plug 'pearofducks/ansible-vim'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -65,7 +66,7 @@ endif
 "Plug 'FuzzyFinder'
 
 if !empty(glob("~/.vim/otherplugin"))
-    so ~/.vim/otherplugin
+    so ~/.vim/otherplugin.vim
 endif
 
 call plug#end()
@@ -221,7 +222,7 @@ map <silent> <leader><space> :noh<cr>
 "nnoremap L <C-W>l
 
 " open or create file under cursor
-" nnoremap gf :e <cfile><CR>
+nnoremap gF :e <cfile><CR>
 
 " dictionary
 nmap <silent> <leader>se :set spelllang=en spell!<CR>
@@ -299,6 +300,7 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 let g:deoplete#enable_at_startup = 1
 "call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
 
+let g:startify_files_number = 5
 
 let g:GPGDefaultRecipients = ['david@tyjak.net']
 
@@ -306,6 +308,14 @@ let g:GPGDefaultRecipients = ['david@tyjak.net']
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
+
+" fzf use ripgrep instead of ag
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 " settings perso
 so ~/.vim/vimrc.local
