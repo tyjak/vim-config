@@ -1,4 +1,3 @@
-set nocompatible               " be iMproved
 scriptencoding utf-8
 set encoding=utf-8
 
@@ -13,13 +12,13 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'lilydjwg/colorizer'
 "Plug 'altercation/vim-colors-solarized'
 Plug 'lifepillar/vim-solarized8'
-Plug 'vimwiki'
-Plug 'fugitive.vim'
+Plug 'vim-scripts/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'loremipsum'
-Plug 'surround.vim'
-Plug 'dbext.vim'
+Plug 'vim-scripts/loremipsum'
+Plug 'vim-scripts/surround.vim'
+Plug 'vim-scripts/dbext.vim'
+Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
 Plug 'mattn/calendar-vim'
 Plug 'mattn/webapi-vim'
@@ -31,7 +30,7 @@ Plug 'osyo-manga/vim-over' "search and replace improvment
 Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
 Plug 'tpope/vim-markdown', { 'for' : 'markdown' }
 Plug 'mbbill/undotree'
-Plug 'quickfixsigns'
+Plug 'vim-scripts/quickfixsigns'
 "Plug 'airblade/vim-gitgutter'
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
 Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
@@ -39,19 +38,21 @@ Plug 'junegunn/goyo.vim'
 Plug 'dm4/vim-writer'
 Plug 'jacekd/vim-iawriter'
 Plug 'jamessan/vim-gnupg'
-Plug 'drawit'
-Plug 'wincent/ferret'
-Plug 'fszymanski/deoplete-emoji'
+Plug 'vim-scripts/drawit'
+Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
+"Plug 'fszymanski/deoplete-emoji'
 Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 Plug 'will133/vim-dirdiff'
 Plug 'pearofducks/ansible-vim'
+Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+ Plug 'Shougo/deoplete.nvim'
+ Plug 'roxma/nvim-yarp'
+ Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 " vim-scripts repos
@@ -62,10 +63,10 @@ endif
 "Plug 'Lokaltog/vim-easymotion'
 "Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 "Plug 'tpope/vim-rails.git'
-"Plug 'L9'
-"Plug 'FuzzyFinder'
+"Plug 'vim-scripts/L9'
+"Plug 'vim-scripts/FuzzyFinder'
 
-if !empty(glob("~/.vim/otherplugin"))
+if !empty(glob("~/.vim/otherplugin.vim"))
     so ~/.vim/otherplugin.vim
 endif
 
@@ -104,6 +105,7 @@ map ,v :tabe $MYVIMRC<CR>
 map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
 map ,w :tabe ~/.config/vimb/config<CR>
+nmap <tab> :Files<CR>
 
 " vim airline + font +gvim "{{{
 " 
@@ -258,10 +260,10 @@ augroup filemng
 augroup END
 
 " Goyo"{{{
-augroup goyo
-    au!
-    map <C-g> :Goyo<CR>
-augroup END
+"augroup goyo
+"    au!
+"    map <C-g> :Goyo<CR>
+"augroup END
 
 let g:goyo_width=100
 "let g:goyo_height=90
@@ -297,11 +299,37 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 "Plugin setup"{{{
 
+"Deoplete settings {{{
 let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+" let g:deoplete#disable_auto_complete = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 "call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
 
-let g:startify_files_number = 5
+" omnifuncs
+augroup omnifuncs
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup end
 
+" deoplete tab-complete
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
+
+" redifine utilsnips mapping"{{{
+let g:UltiSnipsSnippetsDir="~/share/UltiSnips"
+
+"Startify settings"{{{
+let g:startify_files_number = 5
+let g:startify_change_to_vcs_root = 1
+
+"GPG settings {{{
 let g:GPGDefaultRecipients = ['david@tyjak.net']
 
 "Gist setup"{{{
@@ -309,7 +337,7 @@ let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
 
-" fzf use ripgrep instead of ag
+"fzf use ripgrep instead of ag"{{{
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
@@ -317,7 +345,7 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
-" settings perso
+" settings perso"{{{
 so ~/.vim/vimrc.local
 
 " vim: set foldmethod=marker:
