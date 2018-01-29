@@ -22,6 +22,9 @@ let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
+"Color for ansible
+au BufRead,BufNewFile ~/src/ansible-*/**/*.yml set filetype=ansible
+
 "TO TEST
 "command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
 "command! -range Unquotedtext <line1>,<line2>!php -r "print utf7_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
