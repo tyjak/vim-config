@@ -23,7 +23,7 @@ let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
 "Color for ansible
-au BufRead,BufNewFile ~/src/ansible-*/**/*.yml set filetype=ansible
+autocmd! BufRead,BufNewFile ~/src/ansible-*/**/*.yml set filetype=ansible
 
 "TO TEST
 "command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
@@ -42,7 +42,14 @@ function! HtmlEntities()
 endfunction
 
 if !empty(glob("~/.vim/work/vimrc"))
-    so ~/.vim/work/vimrc
+    if getcwd() =~ $HOME . '/WORK'
+        source ~/.vim/work/vimrc
+        echom "ok success"
+    endif
+    augroup load_vimrc_work
+        autocmd!
+        autocmd BufEnter ~/WORK/** source ~/.vim/work/vimrc
+    augroup end
 endif
 
 if !empty(glob("~/.vim/adsnovo/vimrc"))

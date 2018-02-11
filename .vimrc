@@ -55,7 +55,7 @@ else
  Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-" vim-scripts repos
+" unuse plugins
 "Plug 'tpope/vim-unimpaired'
 "Plug 'mtth/scratch.vim'
 "Plug 'itchyny/calendar.vim'
@@ -83,35 +83,33 @@ filetype plugin indent on
 "xmap > ]
 set rtp+=/usr/bin/fzf
 
-"TODO rendre possible le mode dégradé -> True color -> 256 -> 16
 " theme solarized"{{{
 set t_Co=256
 set termguicolors
 let g:solarized_visibility = "normal"
 colorscheme solarized8_dark
-"if filereadable( expand("~/.vim/plugged/vim-colors-solarized/colors/solarized.vim") )
-"    " Color scheme
-"    colorscheme solarized
-"endif
-
 set background=dark
+
+" default tools for search"{{{
 set grepprg=rg\ --vimgrep
 
 " easy vimrc quickopen, autoreload"{{{
-autocmd! BufWritePost $MYVIMRC so $MYVIMRC
-autocmd! BufRead,BufNew *.md set filetype=markdown
+augroup startup
+  autocmd!
+  autocmd BufWritePost $MYVIMRC so $MYVIMRC
+augroup end
 
 map ,v :tabe $MYVIMRC<CR>
 map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
 map ,w :tabe ~/.config/vimb/config<CR>
-nmap <tab> :Files<CR>
+nmap <space> :Files<CR>
 
 " vim airline + font +gvim "{{{
 " 
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
-"set guifont=MesloLGSDZ\ Nerd\ Font\ 9
+set guifont=MesloLGSDZ\ Nerd\ Font\ 9
 "set guifont=TerminusFont \9
 set guioptions-=m
 set guioptions-=l
@@ -130,13 +128,13 @@ set colorcolumn=80
 " divers"{{{
 syntax on
 set history=10000
-set magic 
-set backupdir=~/.vimfiles/bak//          " backup files
+set magic
 set backup
+set backupdir=~/.vimfiles/bak//       " backup files
 set noswapfile
-"set directory=~/.vimfiles/swp//          " swap files
-set undodir  =~/.vimfiles/undo//         " undo files
-set undofile                      " persistent undo
+"set directory=~/.vimfiles/swp//      " swap files
+set undofile                          " persistent undo
+set undodir  =~/.vimfiles/undo//      " undo files
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -210,10 +208,6 @@ map k gk
 " Join line without break as space
 "map J gJ
 
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
-
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><space> :noh<cr>
 
@@ -231,15 +225,16 @@ nmap <silent> <leader>se :set spelllang=en spell!<CR>
 nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
 imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <C-f> [s1z=<c-o>
-
 "nmap t :tabe<cr>
 
-" pour vimoutliner
+" deoplete tab-complete
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
+
+" vimoutliner
 let maplocalleader = ',,'
 
 " quelques commandes"{{{
-command! -nargs=1 Mks mksession ~/.vimfiles/sessions/<args>
-command! -nargs=1 Ops source ~/.vimfiles/sessions/<args>
 
 " Quelques abbréviations"{{{
 iab <expr> hms strftime("%T")
@@ -250,20 +245,22 @@ iab <expr> --f strftime("%F")
 
 " quelques autocommand"{{{
 augroup filemng
-    autocmd!
-    autocmd FileType vimwiki set nonumber | set linebreak
-    "autocmd BufWritePost *.wiki silent Vimwiki2HTML
-    "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
-    autocmd FileType help nnoremap <S-q> :q<CR>
-    autocmd FileType help nnoremap <space> f\|
-    autocmd FileType help nnoremap <CR> <C-]>
-augroup END
+  autocmd!
+  autocmd BufRead,BufNew *.md set filetype=markdown
+  autocmd FileType vimwiki set nonumber | set norelativenumber | set linebreak
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+  "autocmd BufWritePost *.wiki silent Vimwiki2HTML
+  "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
+  autocmd FileType help nnoremap q :q<CR>
+  autocmd FileType help nnoremap <space> f\|
+  autocmd FileType help nnoremap <CR> <C-]>
+augroup end
 
 " Goyo"{{{
 "augroup goyo
-"    au!
-"    map <C-g> :Goyo<CR>
-"augroup END
+"  au!
+"  map <C-g> :Goyo<CR>
+"augroup end
 
 let g:goyo_width=100
 "let g:goyo_height=90
@@ -294,8 +291,11 @@ function! s:goyo_leave()
   set linespace=0
 endfunction
 
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
+augroup goyo
+  autocmd!
+  autocmd User GoyoEnter nested call <SID>goyo_enter()
+  autocmd User GoyoLeave nested call <SID>goyo_leave()
+augroup end
 
 "Plugin setup"{{{
 
@@ -305,7 +305,10 @@ if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
 endif
 " let g:deoplete#disable_auto_complete = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup deoplete
+  autocmd!
+  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup end
 "call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
 
 " omnifuncs
@@ -317,13 +320,6 @@ augroup omnifuncs
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
-
-" deoplete tab-complete
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
-
-" redifine utilsnips mapping"{{{
-let g:UltiSnipsSnippetsDir="~/share/UltiSnips"
 
 "Startify settings"{{{
 let g:startify_files_number = 5
