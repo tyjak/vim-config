@@ -1,5 +1,6 @@
 scriptencoding utf-8
 set encoding=utf-8
+set pyxversion=3
 
 " bootstrap to auto-install vim-plug
 so ~/.vim/bootstrap.vim
@@ -28,7 +29,6 @@ Plug 'yuratomo/w3m.vim'
 Plug 'vimoutliner/vimoutliner', { 'for' : ['votl','vimwiki'] }
 Plug 'osyo-manga/vim-over' "search and replace improvment
 Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
-Plug 'tpope/vim-markdown', { 'for' : 'markdown' }
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/quickfixsigns'
 "Plug 'airblade/vim-gitgutter'
@@ -247,15 +247,18 @@ iab <expr> --f strftime("%F")
 augroup filemng
   autocmd!
   autocmd BufRead,BufNew *.md set filetype=markdown
-  autocmd FileType vimwiki set nonumber | set norelativenumber | set linebreak
+  autocmd FileType vimwiki,markdown set nonumber | set norelativenumber | set linebreak
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
   "autocmd BufWritePost *.wiki silent Vimwiki2HTML
   "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
-  autocmd FileType help nnoremap q :q<CR>
-  autocmd FileType help nnoremap <space> f\|
-  autocmd FileType help nnoremap <CR> <C-]>
+  autocmd FileType help nnoremap <buffer> q :q<CR>
+  autocmd FileType help nnoremap <buffer> <space> f\|
+  autocmd FileType help nnoremap <buffer> <CR> <C-]>
 augroup end
 
+"let g:vimwiki_ext2syntax = {'.md': 'markdown',
+"                \ '.mkd': 'markdown',
+"                \ '.wiki': 'media'}
 " Goyo"{{{
 "augroup goyo
 "  au!

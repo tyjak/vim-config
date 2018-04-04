@@ -14,7 +14,8 @@ let g:vimwiki_folding='expr'
 "Startify setup"{{{
 let g:startify_change_to_vcs_root = 1
 let g:startify_bookmarks = []
-let g:startify_bookmarks += ['~/Documents/']
+let g:startify_bookmarks += [{'h':'~/vimwiki/index.wiki'}]
+let g:startify_bookmarks += [{'d':'~/Documents'}]
 let g:startify_bookmarks += ['~/.muttrc-local']
 let g:startify_bookmarks += ['~/.config/i3/config']
 let g:startify_bookmarks += ['~/.config/i3/status.py']
@@ -24,6 +25,9 @@ let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
 "Color for ansible
 autocmd! BufRead,BufNewFile ~/src/ansible-*/**/*.yml set filetype=ansible
+
+"Personal Slideshow
+noremap <F8> :call Slideshow()<CR>
 
 "TO TEST
 "command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
@@ -41,10 +45,39 @@ function! HtmlEntities()
     '<,'>!php -r "print htmlentities(file_get_contents('php://stdin','r'));"
 endfunction
 
+function! VimwikiLinkHandler(link) "{{{ Use Vim to open links with the
+" 'vlocal:' or 'vfile:' schemes.  E.g.:
+"   1) [[vfile:///~/Code/PythonProject/abc123.py]], and
+"   2) [[vlocal:./|Wiki Home]]
+let link = a:link
+if link =~ "vlocal:" || link =~ "vfile:"
+  let link = link[1:]
+else
+  return 0
+endif
+let [idx, scheme, path, subdir, lnk, ext, url] =
+     \ vimwiki#base#resolve_scheme(link, 0)
+if g:vimwiki_debug
+  echom 'LinkHandler: idx='.idx.', scheme=[v]'.scheme.', path='.path.
+       \ ', subdir='.subdir.', lnk='.lnk.', ext='.ext.', url='.url
+endif
+if url == ''
+  echom 'Vimwiki Error: Unable to resolve link!'
+  return 0
+else
+  call vimwiki#base#edit_file('tabnew', url, [], 0)
+  return 1
+endif
+endfunction " }}}
+
+function! Slideshow()
+    execute "!slideshow " . bufname("%")
+endfunction
+
+
 if !empty(glob("~/.vim/work/vimrc"))
     if getcwd() =~ $HOME . '/WORK'
         source ~/.vim/work/vimrc
-        echom "ok success"
     endif
     augroup load_vimrc_work
         autocmd!
