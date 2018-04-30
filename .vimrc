@@ -9,7 +9,7 @@ so ~/.vim/bootstrap.vim
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'marhop/vim-pal'
+" essentials
 Plug 'ryanoasis/vim-devicons'
 Plug 'lilydjwg/colorizer'
 "Plug 'altercation/vim-colors-solarized'
@@ -17,37 +17,12 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'vim-scripts/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-scripts/loremipsum'
-Plug 'vim-scripts/surround.vim'
-Plug 'vim-scripts/dbext.vim'
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'mattn/emmet-vim'
-Plug 'mattn/calendar-vim'
-Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
 Plug 'mhinz/vim-startify'
-Plug 'yuratomo/w3m.vim'
-Plug 'vimoutliner/vimoutliner', { 'for' : ['votl','vimwiki'] }
-Plug 'osyo-manga/vim-over' "search and replace improvment
-Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
-Plug 'mbbill/undotree'
-Plug 'vim-scripts/quickfixsigns'
-"Plug 'airblade/vim-gitgutter'
-Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
-Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
-Plug 'junegunn/goyo.vim'
-Plug 'dm4/vim-writer'
-Plug 'jacekd/vim-iawriter'
-Plug 'jamessan/vim-gnupg'
-Plug 'vim-scripts/drawit'
-Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
-"Plug 'fszymanski/deoplete-emoji'
-Plug 'junegunn/fzf.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'will133/vim-dirdiff'
-Plug 'pearofducks/ansible-vim'
-Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
+"Plug 'mhinz/vim-signify'
+"Plug 'vim-scripts/quickfixsigns'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -55,6 +30,32 @@ else
  Plug 'roxma/nvim-yarp'
  Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
+" utilities
+Plug 'jamessan/vim-gnupg'
+Plug 'will133/vim-dirdiff'
+Plug 'mattn/emmet-vim'
+Plug 'mattn/calendar-vim'
+Plug 'vim-scripts/surround.vim'
+Plug 'vim-scripts/loremipsum'
+Plug 'vimoutliner/vimoutliner', { 'for' : ['votl','vimwiki'] }
+Plug 'mbbill/undotree'
+Plug 'airblade/vim-gitgutter'
+"Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
+Plug 'junegunn/goyo.vim'
+Plug 'dm4/vim-writer'
+Plug 'marhop/vim-pal'
+Plug 'jacekd/vim-iawriter'
+Plug 'vim-scripts/drawit'
+"Plug 'fszymanski/deoplete-emoji'
+Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
+
+" in test
+Plug 'mattn/webapi-vim'
+Plug 'honza/vim-snippets'
+Plug 'osyo-manga/vim-over' "search and replace improvment
+Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
+Plug 'yuratomo/w3m.vim'
 
 " unuse plugins
 "Plug 'tpope/vim-unimpaired'
@@ -67,6 +68,7 @@ endif
 "Plug 'vim-scripts/L9'
 "Plug 'vim-scripts/FuzzyFinder'
 
+" dev or specific env plugin
 if !empty(glob("~/.vim/otherplugin.vim"))
     so ~/.vim/otherplugin.vim
 endif
@@ -336,6 +338,19 @@ let g:GPGDefaultRecipients = ['david@tyjak.net']
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
+
+"GitGutter settings
+nmap <Down> <Plug>GitGutterNextHunk
+nmap <Up> <Plug>GitGutterPrevHunk
+nmap <Return> <Plug>GitGutterPreviewHunk
+highlight GitGutterChange guifg=#002b36
+highlight GitGutterChange guibg=#b58900
+highlight GitGutterDelete guifg=#002b36
+highlight GitGutterDelete guibg=#dc322f
+highlight GitGutterChangeDelete guifg=#002b36
+highlight GitGutterChangeDelete guibg=#dc322f
+highlight GitGutterAdd guibg=#859900
+highlight GitGutterAdd guifg=#002b36
 
 "fzf use ripgrep instead of ag"{{{
 command! -bang -nargs=* Rg
