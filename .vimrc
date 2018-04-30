@@ -9,6 +9,7 @@ so ~/.vim/bootstrap.vim
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'marhop/vim-pal'
 Plug 'ryanoasis/vim-devicons'
 Plug 'lilydjwg/colorizer'
 "Plug 'altercation/vim-colors-solarized'

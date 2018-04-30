@@ -18,7 +18,7 @@ set guioptions=aiMr
 
 " to open full link
 let g:netrw_gx="<cWORD>"
-let g:netrw_browsex_viewer="vimb"
+let g:netrw_browsex_viewer="/usr/bin/vimb"
 
 " Key bindings.
 nmap b <C-B><C-G>
