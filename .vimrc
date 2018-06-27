@@ -107,6 +107,7 @@ map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
 map ,w :tabe ~/.config/vimb/config<CR>
 nmap <space> :Files<CR>
+nmap <space> :Files<CR>
 
 " vim airline + font +gvim "{{{
 " 
@@ -192,8 +193,8 @@ nnoremap <C-k> :bnext<CR>
 " easy choose a buffer
 nnoremap <C-b> :buffers<CR>:buffer<Space>
 
-" edit in a new tab with Startify
-nnoremap <C-t> :tabnew<CR>:Startify<CR>
+" edit in a new tab with Startify and FZF
+nnoremap <C-t> :tabnew<CR>:Startify<CR>:Files<CR>
 
 " toggle undotree
 nnoremap U :UndotreeToggle<CR>:UndotreeFocus<CR>
@@ -212,13 +213,15 @@ map k gk
 "map J gJ
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader><space> :noh<cr>
+map <silent> <leader>: :noh<cr>
 
 " Smart way to move between windows
 "nnoremap J <C-W>j
 "nnoremap K <C-W>k
 "nnoremap H <C-W>h
 "nnoremap L <C-W>l
+set splitbelow
+set splitright
 
 " open or create file under cursor
 nnoremap gF :e <cfile><CR>
@@ -359,6 +362,16 @@ command! -bang -nargs=* Rg
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
+
+command! -bang -nargs=* Rgcw
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(expand("<cword>")), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+nmap <leader><Space> :Rgcw<CR>
+
 
 " settings perso"{{{
 so ~/.vim/vimrc.local
