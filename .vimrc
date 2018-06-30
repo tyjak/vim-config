@@ -39,6 +39,9 @@ Plug 'mattn/calendar-vim'
 Plug 'vim-scripts/surround.vim'
 Plug 'vim-scripts/loremipsum'
 Plug 'vimoutliner/vimoutliner', { 'for' : ['votl','vimwiki'] }
+Plug 'osyo-manga/vim-over' "search and replace improvment
+Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
+Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
 Plug 'mbbill/undotree'
 Plug 'airblade/vim-gitgutter'
 "Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
