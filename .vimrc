@@ -20,17 +20,18 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-git'
 Plug 'mattn/gist-vim'
 Plug 'mhinz/vim-startify'
 "Plug 'mhinz/vim-signify'
 "Plug 'vim-scripts/quickfixsigns'
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
- Plug 'Shougo/deoplete.nvim'
- Plug 'roxma/nvim-yarp'
- Plug 'roxma/vim-hug-neovim-rpc'
-endif
+"if has('nvim')
+"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+"endif
 
 " utilities
 Plug 'jamessan/vim-gnupg'
@@ -44,7 +45,7 @@ Plug 'osyo-manga/vim-over' "search and replace improvment
 Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
 Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
 Plug 'mbbill/undotree'
-Plug 'airblade/vim-gitgutter'
+"Plug 'airblade/vim-gitgutter'
 "Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
 Plug 'junegunn/goyo.vim'
 Plug 'dm4/vim-writer'
@@ -52,7 +53,7 @@ Plug 'marhop/vim-pal'
 Plug 'jacekd/vim-iawriter'
 Plug 'vim-scripts/drawit'
 "Plug 'fszymanski/deoplete-emoji'
-Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
+"Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
 
 " in test
 Plug 'mattn/webapi-vim'
@@ -60,6 +61,7 @@ Plug 'honza/vim-snippets'
 Plug 'osyo-manga/vim-over' "search and replace improvment
 Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
 Plug 'yuratomo/w3m.vim'
+"Plug 'maralla/completor.vim'
 
 " unuse plugins
 "Plug 'tpope/vim-unimpaired'
@@ -94,7 +96,7 @@ set rtp+=/usr/bin/fzf
 set t_Co=256
 set termguicolors
 let g:solarized_visibility = "normal"
-colorscheme solarized8_dark
+colorscheme solarized8_flat
 set background=dark
 
 " default tools for search"{{{
@@ -118,6 +120,7 @@ nmap <space> :Files<CR>
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
 set guifont=MesloLGSDZ\ Nerd\ Font\ 9
+"set guifont=FuraCode\ Nerd\ Font\ Mono\ 9
 "set guifont=TerminusFont \9
 set guioptions-=m
 set guioptions-=l
@@ -150,7 +153,7 @@ set smarttab
 set showcmd
 set showmatch
 set number
-set relativenumber
+"set relativenumber
 set hlsearch
 set incsearch
 set gdefault
@@ -238,8 +241,8 @@ nmap <C-f> [s1z=<c-o>
 "nmap t :tabe<cr>
 
 " deoplete tab-complete
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
+"inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+"inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
 
 " vimoutliner
 let maplocalleader = ',,'
@@ -265,6 +268,13 @@ augroup filemng
   autocmd FileType help nnoremap <buffer> <space> f\|
   autocmd FileType help nnoremap <buffer> <CR> <C-]>
 augroup end
+
+augroup my_git_rebase
+  autocmd!
+  autocmd FileType gitrebase nnoremap <buffer> F :Fixup<cr>
+  autocmd FileType gitrebase nnoremap <buffer> E :Edit<cr>
+  autocmd FileType gitrebase nnoremap <buffer> S :Cycle<cr>
+augroup END
 
 "let g:vimwiki_ext2syntax = {'.md': 'markdown',
 "                \ '.mkd': 'markdown',
@@ -312,17 +322,50 @@ augroup end
 
 "Plugin setup"{{{
 
+"Completor
+let g:completor_python_binary = '/home/david/.virtualenvs/vim/bin/python'
+" Use TAB to complete when typing words, else inserts TABs as usual.  Uses
+" dictionary, source files, and completor to find matching words to complete.
+
+" Note: usual completion is on <C-n> but more trouble to press all the time.
+" Never type the same word twice and maybe learn a new spellings!
+" Use the Linux dictionary when spelling is in doubt.
+function! Tab_Or_Complete() abort
+  " If completor is already open the `tab` cycles through suggested completions.
+  if pumvisible()
+    return "\<C-N>"
+  " If completor is not open and we are in the middle of typing a word then
+  " `tab` opens completor menu.
+  elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-R>=completor#do('complete')\<CR>"
+  else
+    " If we aren't typing a word and we press `tab` simply do the normal `tab`
+    " action.
+    return "\<Tab>"
+  endif
+endfunction
+
+" Use `tab` key to select completions.  Default is arrow keys.
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Use tab to trigger auto completion.  Default suggests completions as you type.
+let g:completor_auto_trigger = 0
+
+
+inoremap <expr> <Tab> Tab_Or_Complete()
 "Deoplete settings {{{
-let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-" let g:deoplete#disable_auto_complete = 1
-augroup deoplete
-  autocmd!
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-augroup end
-"call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
+"let g:python3_host_prog = '~/.virtualenvs/vim/bin/python'
+"let g:deoplete#enable_at_startup = 1
+"if !exists('g:deoplete#omni#input_patterns')
+"  let g:deoplete#omni#input_patterns = {}
+"endif
+"" let g:deoplete#disable_auto_complete = 1
+"augroup deoplete
+"  autocmd!
+"  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+"augroup end
+""call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
 
 " omnifuncs
 augroup omnifuncs

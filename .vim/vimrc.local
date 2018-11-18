@@ -23,8 +23,16 @@ let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
 
-"Color for ansible
-autocmd! BufRead,BufNewFile ~/src/ansible-*/**/*.yml set filetype=ansible
+augroup vimrc
+
+    autocmd!
+    "Color for ansible
+    autocmd BufRead,BufNewFile ~/src/ansible-*/**/*.yml set filetype=ansible
+
+    "Color and foldmethod for special .feature file
+    autocmd BufRead,BufNewFile *.rules set filetype=cucumber | set foldmethod=indent
+
+augroup END
 
 "Personal Slideshow
 noremap <F8> :call Slideshow()<CR>
@@ -41,8 +49,16 @@ function! UrlEncode()
     '<,'>!php -r "print rawurlencode(file_get_contents('php://stdin','r'));"
 endfunction
 
+function! UrlDecode()
+    '<,'>!php -r "print rawurldecode(file_get_contents('php://stdin','r'));"
+endfunction
+
 function! HtmlEntities()
     '<,'>!php -r "print htmlentities(file_get_contents('php://stdin','r'));"
+endfunction
+
+function! HtmlDecodeEntities()
+    '<,'>!php -r "print html_entity_decode(file_get_contents('php://stdin','r'));"
 endfunction
 
 function! VimwikiLinkHandler(link) "{{{ Use Vim to open links with the
