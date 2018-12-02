@@ -32,6 +32,11 @@ augroup vimrc
     "Color and foldmethod for special .feature file
     autocmd BufRead,BufNewFile *.rules set filetype=cucumber | set foldmethod=indent
 
+    if exists('+colorcolumn')
+      " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
+      autocmd BufRead,BufNewFile * let &l:colorcolumn='+' . join(range(1, 254), ',+')
+    endif
+
 augroup END
 
 "Personal Slideshow

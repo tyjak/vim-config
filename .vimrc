@@ -45,7 +45,7 @@ Plug 'osyo-manga/vim-over' "search and replace improvment
 Plug 'chase/vim-ansible-yaml', { 'for' : 'ansible' }
 Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
 Plug 'mbbill/undotree'
-"Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 "Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
 Plug 'junegunn/goyo.vim'
 Plug 'dm4/vim-writer'
@@ -93,11 +93,16 @@ filetype plugin indent on
 set rtp+=/usr/bin/fzf
 
 " theme solarized"{{{
-set t_Co=256
+let &t_8f = "[38;2;%lu;%lu;%lum"
+let &t_8b = "[48;2;%lu;%lu;%lum"
+
 set termguicolors
-let g:solarized_visibility = "normal"
-colorscheme solarized8_flat
+"set t_Co=256
+let g:solarized_visibility = "high"
+let g:solarized_term_italics = 1
+colorscheme solarized8_high
 set background=dark
+set fillchars+=vert:\ 
 
 " default tools for search"{{{
 set grepprg=rg\ --vimgrep
@@ -113,10 +118,9 @@ map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
 map ,w :tabe ~/.config/vimb/config<CR>
 nmap <space> :Files<CR>
-nmap <space> :Files<CR>
 
 " vim airline + font +gvim "{{{
-" 
+"
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
 set guifont=MesloLGSDZ\ Nerd\ Font\ 9
@@ -134,7 +138,6 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
-set colorcolumn=80
 
 " divers"{{{
 syntax on
@@ -162,7 +165,7 @@ set smartcase
 set autoindent
 set ruler
 set cursorline
-set list listchars=nbsp:¤,tab:··,trail:¤,extends:▶,precedes:◀
+set list listchars=nbsp:¤,tab:\ \ ,trail:¤,extends:▶,precedes:◀
 " long completion menu
 set wildmenu
 set wildmode=list:longest,full
@@ -220,7 +223,7 @@ map k gk
 "map J gJ
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader>: :noh<cr>
+map <silent> <leader>n :noh<cr>
 
 " Smart way to move between windows
 "nnoremap J <C-W>j
