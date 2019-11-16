@@ -22,6 +22,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-git'
 Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
 Plug 'mhinz/vim-startify'
 "Plug 'mhinz/vim-signify'
 "Plug 'vim-scripts/quickfixsigns'
@@ -47,21 +48,23 @@ Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
 Plug 'mbbill/undotree'
 Plug 'airblade/vim-gitgutter'
 "Plug 'toritori0318/vim-redmine', { 'on' : 'RedmineViewAllTicket' }
-Plug 'junegunn/goyo.vim'
-Plug 'dm4/vim-writer'
+"Plug 'junegunn/goyo.vim' #Seems to not working on i3w
 Plug 'marhop/vim-pal'
 Plug 'jacekd/vim-iawriter'
 Plug 'vim-scripts/drawit'
+Plug 'nicwest/vim-http'
 "Plug 'fszymanski/deoplete-emoji'
 "Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
 
 " in test
-Plug 'mattn/webapi-vim'
-Plug 'honza/vim-snippets'
-Plug 'osyo-manga/vim-over' "search and replace improvment
+"Plug 'dm4/vim-writer'
+"Plug 'honza/vim-snippets'
+"Plug 'osyo-manga/vim-over' "search and replace improvment
 Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
-Plug 'yuratomo/w3m.vim'
+"Plug 'yuratomo/w3m.vim'
 "Plug 'maralla/completor.vim'
+Plug 'ActivityWatch/aw-watcher-vim' " NOTE : ne supporte pas plusieurs
+                                     " instances de vim
 
 " unuse plugins
 "Plug 'tpope/vim-unimpaired'
@@ -83,7 +86,7 @@ call plug#end()
 
 filetype plugin indent on
 
-" remap [] for tpope/vim-unimpaired
+" map [] for tpope/vim-unimpaired
 "nmap < [
 "nmap > ]
 "omap < [
@@ -100,7 +103,7 @@ set termguicolors
 "set t_Co=256
 let g:solarized_visibility = "high"
 let g:solarized_term_italics = 1
-colorscheme solarized8_high
+colorscheme solarized8
 set background=dark
 set fillchars+=vert:\ 
 
@@ -118,6 +121,7 @@ map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
 map ,w :tabe ~/.config/vimb/config<CR>
 nmap <space> :Files<CR>
+nmap ,b :Buffer<CR>
 
 " vim airline + font +gvim "{{{
 "
@@ -152,7 +156,7 @@ set undodir  =~/.vimfiles/undo//      " undo files
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set smarttab
+set nosmarttab
 set showcmd
 set showmatch
 set number
@@ -195,25 +199,25 @@ vmap ,j :m+<cr>
 vmap ,k :m-2<cr>
 
 " Cycle beetween tab
-nnoremap <C-h> :tabprevious<CR>
-nnoremap <C-l> :tabnext<CR>
-nnoremap <C-j> :bprevious<CR>
-nnoremap <C-k> :bnext<CR>
+nmap <silent> <C-h> :tabprevious<CR>
+nmap <silent> <C-l> :tabnext<CR>
+nmap <silent> <C-j> :bprevious<CR>
+nmap <silent> <C-k> :bnext<CR>
 
 " easy choose a buffer
-nnoremap <C-b> :buffers<CR>:buffer<Space>
+nmap <silent> <C-b> :buffers<CR>:buffer<Space>
 
 " edit in a new tab with Startify and FZF
-nnoremap <C-t> :tabnew<CR>:Startify<CR>:Files<CR>
+nmap <silent> <C-t> :tabnew<CR>:Startify<CR>:Files<CR>
 
 " toggle undotree
-nnoremap U :UndotreeToggle<CR>:UndotreeFocus<CR>
+nmap U :UndotreeToggle<CR>:UndotreeFocus<CR>
 
 " close current tab
-"nnoremap <C-d> :tabclose<cr>
+"nmap <C-d> :tabclose<cr>
 
 "delete current buffer
-"nnoremap <C-x> :bdelete<cr>
+"nmap <C-x> :bdelete<cr>
 
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
@@ -226,21 +230,21 @@ map k gk
 map <silent> <leader>n :noh<cr>
 
 " Smart way to move between windows
-"nnoremap J <C-W>j
-"nnoremap K <C-W>k
-"nnoremap H <C-W>h
-"nnoremap L <C-W>l
+"nmap J <C-W>j
+"nmap K <C-W>k
+"nmap H <C-W>h
+"nmap L <C-W>l
 set splitbelow
 set splitright
 
 " open or create file under cursor
-nnoremap gF :e <cfile><CR>
+nmap gF :e <cfile><CR>
 
 " dictionary
 nmap <silent> <leader>se :set spelllang=en spell!<CR>
 nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
-imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
-nmap <C-f> [s1z=<c-o>
+imap <silent> <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <silent> <C-f> [s1z=<c-o>
 "nmap t :tabe<cr>
 
 " deoplete tab-complete
@@ -263,20 +267,26 @@ iab <expr> --f strftime("%F")
 augroup filemng
   autocmd!
   autocmd BufRead,BufNew *.md set filetype=markdown
-  autocmd FileType vimwiki,markdown set nonumber | set norelativenumber | set linebreak
+  autocmd FileType vimwiki,markdown set nonumber |
+                                    set norelativenumber |
+                                    set linebreak |
+                                    let g:solarized_visibility = "low" |
+                                    let g:solarized_contrast = "low"
+
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
   "autocmd BufWritePost *.wiki silent Vimwiki2HTML
   "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
-  autocmd FileType help nnoremap <buffer> q :q<CR>
-  autocmd FileType help nnoremap <buffer> <space> f\|
-  autocmd FileType help nnoremap <buffer> <CR> <C-]>
+  autocmd FileType help nmap <buffer> q :q<CR>
+  autocmd FileType help nmap <buffer> <space> f\|
+  autocmd FileType help nmap <buffer> <CR> <C-]>
 augroup end
 
 augroup my_git_rebase
   autocmd!
-  autocmd FileType gitrebase nnoremap <buffer> F :Fixup<cr>
-  autocmd FileType gitrebase nnoremap <buffer> E :Edit<cr>
-  autocmd FileType gitrebase nnoremap <buffer> S :Cycle<cr>
+  autocmd FileType gitrebase nmap <buffer> F :Fixup<cr>
+  autocmd FileType gitrebase nmap <buffer> E :Edit<cr>
+  autocmd FileType gitrebase nmap <buffer> S :Cycle<cr>
+  autocmd FileType gitrebase nmap <buffer> R :Reword<cr>
 augroup END
 
 "let g:vimwiki_ext2syntax = {'.md': 'markdown',
@@ -297,7 +307,7 @@ function! s:goyo_enter()
   "colorscheme iawriter
   if has('gui_running')
   endif
-  colorscheme solarized8_light
+  colorscheme solarized8
   "set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 11
   set background=light
   highlight Cursor guifg=#859900 guibg=white
@@ -324,6 +334,9 @@ augroup goyo
 augroup end
 
 "Plugin setup"{{{
+
+"Vim-http
+let g:vim_http_split_vertically = 1
 
 "Completor
 let g:completor_python_binary = '/home/david/.virtualenvs/vim/bin/python'
@@ -393,9 +406,9 @@ let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
 
 "GitGutter settings
-nmap <Down> <Plug>GitGutterNextHunk
-nmap <Up> <Plug>GitGutterPrevHunk
-nmap <Return> <Plug>GitGutterPreviewHunk
+nmap <Down> <Plug>(GitGutterNextHunk)
+nmap <Up> <Plug>(GitGutterPrevHunk)
+nmap <Return> <Plug>(GitGutterPreviewHunk)
 highlight GitGutterChange guifg=#002b36
 highlight GitGutterChange guibg=#b58900
 highlight GitGutterDelete guifg=#002b36
@@ -421,6 +434,7 @@ command! -bang -nargs=* Rgcw
   \   <bang>0)
 
 nmap <leader><Space> :Rgcw<CR>
+nmap <leader>b :Buffers<CR>
 
 
 " settings perso"{{{
