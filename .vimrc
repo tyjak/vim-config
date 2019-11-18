@@ -108,14 +108,6 @@ augroup startup
   autocmd BufWritePost $MYVIMRC so $MYVIMRC
 augroup end
 
-map ,v :tabe $MYVIMRC<CR>
-map ,V :source $MYVIMRC<CR>
-map ,i :tabe ~/.config/i3/config<CR>
-map ,s :tabe ~/.config/i3/status.py<CR>
-map ,w :tabe ~/.config/vimb/config<CR>
-nmap <space> :Files<CR>
-nmap ,b :Buffer<CR>
-
 " vim airline + font +gvim "{{{
 "
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
@@ -171,11 +163,24 @@ set hidden
 set nofoldenable
 set path=.,**
 
+" color
+highlight WarningMsg guifg=#002b36
+highlight WarningMsg guibg=#b58900
+
 " to open full link
 let g:netrw_gx="<cWORD>"
 let g:netrw_browsex_viewer= "xdg-open"
 
 " Mappings"{{{
+
+map ,v :tabe $MYVIMRC<CR>
+map ,V :source $MYVIMRC<CR>
+map ,i :tabe ~/.config/i3/config<CR>
+map ,s :tabe ~/.config/i3/status.py<CR>
+map ,w :tabe ~/.config/vimb/config<CR>
+nmap <space> :Files<CR>
+nmap ,b :Buffer<CR>
+
 
 " remaping for azerty
 let mapleader = ","
@@ -222,7 +227,7 @@ map k gk
 "map J gJ
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader>n :noh<cr>
+map <silent> <leader>: :noh<cr>
 
 " Smart way to move between windows
 "nmap J <C-W>j
@@ -359,9 +364,9 @@ nmap <Up> <Plug>(GitGutterPrevHunk)
 nmap <Return> <Plug>(GitGutterPreviewHunk)
 highlight GitGutterChange guifg=#002b36
 highlight GitGutterChange guibg=#b58900
-highlight GitGutterDelete guifg=#002b36
+highlight GitGutterDelete guifg=#fcf6e3
 highlight GitGutterDelete guibg=#dc322f
-highlight GitGutterChangeDelete guifg=#002b36
+highlight GitGutterChangeDelete guifg=#fcf6e3
 highlight GitGutterChangeDelete guibg=#dc322f
 highlight GitGutterAdd guifg=#002b36
 highlight GitGutterAdd guibg=#859900
