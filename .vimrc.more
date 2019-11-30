@@ -1,3 +1,9 @@
+" Plugins"{{{
+
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/goyo.vim'
+call plug#end()
+
 " No compatibility – necessary for mappings to work.
 set nocompatible
 
@@ -23,6 +29,7 @@ let g:netrw_browsex_viewer="/usr/bin/vimb"
 " Key bindings.
 nmap b <C-B><C-G>
 nmap q :q!<CR>
+nmap h :q!<CR>
 nmap <Up> <C-Y>
 nmap <Down> <C-E>
 
@@ -31,4 +38,14 @@ nmap <Down> <C-E>
 nmap ^V <C-F><C-G>
 nmap <space> /https\?:\/\/<CR>
 nmap <CR> gx
+
+function! s:goyo_enter()
+	set syntax=more
+endfunction
+function! s:goyo_leave()
+    quit!
+endfunction
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
 

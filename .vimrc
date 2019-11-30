@@ -47,8 +47,10 @@ Plug 'dm4/vim-writer'
 Plug 'marhop/vim-pal'
 Plug 'jacekd/vim-iawriter'
 Plug 'vim-scripts/drawit'
+Plug 'sk1418/HowMuch'
+Plug 'chrisbra/csv.vim'
 "Plug 'fszymanski/deoplete-emoji'
-Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
+"Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
 
 " in test
 Plug 'mattn/webapi-vim'
@@ -84,13 +86,12 @@ filetype plugin indent on
 "omap > ]
 "xmap < [
 "xmap > ]
-set rtp+=/usr/bin/fzf
 
 " theme solarized"{{{
 set t_Co=256
 set termguicolors
 let g:solarized_visibility = "normal"
-colorscheme solarized8_dark
+colorscheme solarized8
 set background=dark
 
 " default tools for search"{{{
@@ -107,13 +108,12 @@ map ,V :source $MYVIMRC<CR>
 map ,i :tabe ~/.config/i3/config<CR>
 map ,w :tabe ~/.config/vimb/config<CR>
 nmap <space> :Files<CR>
-nmap <space> :Files<CR>
 
 " vim airline + font +gvim "{{{
 " 
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
-set guifont=MesloLGSDZ\ Nerd\ Font\ 9
+set guifont=MesloLGSDZ\ Nerd\ Font\ Mono\ 9
 "set guifont=TerminusFont \9
 set guioptions-=m
 set guioptions-=l
@@ -127,7 +127,11 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
-set colorcolumn=80
+if exists('+colorcolumn')
+  " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
+  let &l:colorcolumn='+' . join(range(0, 254), ',+')
+endif
+
 
 " divers"{{{
 syntax on
@@ -245,6 +249,7 @@ let maplocalleader = ',,'
 " Quelques abbréviations"{{{
 iab <expr> hms strftime("%T")
 iab <expr> ymd strftime("%y%m%d")
+iab <expr> dmy strftime("%d-%m-%Y")
 iab <expr> --c strftime("%c")
 iab <expr> --d strftime("%a %d %b %Y")
 iab <expr> --f strftime("%F")
@@ -376,4 +381,4 @@ nmap <leader><Space> :Rgcw<CR>
 " settings perso"{{{
 so ~/.vim/vimrc.local
 
-" vim: set foldmethod=marker:
+" vim: set foldmethod=marker:textwidth=78
