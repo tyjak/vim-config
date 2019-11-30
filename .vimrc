@@ -10,26 +10,19 @@ so ~/.vim/bootstrap.vim
 call plug#begin('~/.vim/plugged')
 
 " essentials
-Plug 'ryanoasis/vim-devicons'
-Plug 'lilydjwg/colorizer'
-"Plug 'altercation/vim-colors-solarized'
-Plug 'lifepillar/vim-solarized8'
-Plug 'vim-scripts/vimwiki'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'mattn/gist-vim'
-Plug 'mhinz/vim-startify'
-"Plug 'mhinz/vim-signify'
-"Plug 'vim-scripts/quickfixsigns'
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
- Plug 'Shougo/deoplete.nvim'
- Plug 'roxma/nvim-yarp'
- Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'ryanoasis/vim-devicons'                       " filetype icons
+Plug 'lilydjwg/colorizer'                           " colorize test color ref
+Plug 'lifepillar/vim-solarized8'                    " solarized themz
+Plug 'vim-scripts/vimwiki'                          " vim wiki
+Plug 'vim-airline/vim-airline'                      " custom status line
+Plug 'vim-airline/vim-airline-themes'               " theme solarized status
+Plug 'junegunn/fzf.vim'                             " power search
+Plug 'tpope/vim-fugitive'                           " git integration
+Plug 'tpope/vim-repeat'                             " . repeat map plugin
+Plug 'tpope/vim-git'                                " git ft, indent, ...
+Plug 'mattn/gist-vim'                               " gist interface
+Plug 'mattn/webapi-vim'                             " gist dependancy
+Plug 'mhinz/vim-startify'                           " start page
 
 " utilities
 Plug 'jamessan/vim-gnupg'
@@ -51,15 +44,6 @@ Plug 'sk1418/HowMuch'
 Plug 'chrisbra/csv.vim'
 "Plug 'fszymanski/deoplete-emoji'
 "Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
-
-" in test
-Plug 'mattn/webapi-vim'
-Plug 'honza/vim-snippets'
-Plug 'osyo-manga/vim-over' "search and replace improvment
-Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
-Plug 'yuratomo/w3m.vim'
-
-" unuse plugins
 "Plug 'tpope/vim-unimpaired'
 "Plug 'mtth/scratch.vim'
 "Plug 'itchyny/calendar.vim'
@@ -70,6 +54,16 @@ Plug 'yuratomo/w3m.vim'
 "Plug 'vim-scripts/L9'
 "Plug 'vim-scripts/FuzzyFinder'
 
+" in test
+"Plug 'dm4/vim-writer'
+"Plug 'honza/vim-snippets'
+"Plug 'osyo-manga/vim-over' "search and replace improvment
+Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
+"Plug 'yuratomo/w3m.vim'
+"Plug 'maralla/completor.vim'
+Plug 'ActivityWatch/aw-watcher-vim' " NOTE : ne supporte pas plusieurs
+                                     " instances de vim
+
 " dev or specific env plugin
 if !empty(glob("~/.vim/otherplugin.vim"))
     so ~/.vim/otherplugin.vim
@@ -79,7 +73,7 @@ call plug#end()
 
 filetype plugin indent on
 
-" remap [] for tpope/vim-unimpaired
+" map [] for tpope/vim-unimpaired
 "nmap < [
 "nmap > ]
 "omap < [
@@ -87,12 +81,20 @@ filetype plugin indent on
 "xmap < [
 "xmap > ]
 
+" get FZF working
+set rtp+=/usr/bin/fzf
+
 " theme solarized"{{{
-set t_Co=256
+let &t_8f = "[38;2;%lu;%lu;%lum"
+let &t_8b = "[48;2;%lu;%lu;%lum"
+
 set termguicolors
-let g:solarized_visibility = "normal"
+"set t_Co=256
+let g:solarized_visibility = "high"
+let g:solarized_term_italics = 1
 colorscheme solarized8
 set background=dark
+set fillchars+=vert:\ 
 
 " default tools for search"{{{
 set grepprg=rg\ --vimgrep
@@ -103,14 +105,8 @@ augroup startup
   autocmd BufWritePost $MYVIMRC so $MYVIMRC
 augroup end
 
-map ,v :tabe $MYVIMRC<CR>
-map ,V :source $MYVIMRC<CR>
-map ,i :tabe ~/.config/i3/config<CR>
-map ,w :tabe ~/.config/vimb/config<CR>
-nmap <space> :Files<CR>
-
 " vim airline + font +gvim "{{{
-" 
+"
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
 set guifont=MesloLGSDZ\ Nerd\ Font\ Mono\ 9
@@ -127,11 +123,6 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
-if exists('+colorcolumn')
-  " Highlight up to 255 columns (this is the current Vim max) beyond 'textwidth'
-  let &l:colorcolumn='+' . join(range(0, 254), ',+')
-endif
-
 
 " divers"{{{
 syntax on
@@ -146,11 +137,11 @@ set undodir  =~/.vimfiles/undo//      " undo files
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set smarttab
+set nosmarttab
 set showcmd
 set showmatch
 set number
-set relativenumber
+"set relativenumber
 set hlsearch
 set incsearch
 set gdefault
@@ -159,7 +150,8 @@ set smartcase
 set autoindent
 set ruler
 set cursorline
-set list listchars=nbsp:¤,tab:··,trail:¤,extends:▶,precedes:◀
+set list listchars=nbsp:¤,tab:\ \ ,trail:¤,extends:▶,precedes:◀
+
 " long completion menu
 set wildmenu
 set wildmode=list:longest,full
@@ -167,11 +159,24 @@ set hidden
 set nofoldenable
 set path=.,**
 
+" color
+highlight WarningMsg guifg=#002b36
+highlight WarningMsg guibg=#b58900
+
 " to open full link
 let g:netrw_gx="<cWORD>"
 let g:netrw_browsex_viewer= "xdg-open"
 
 " Mappings"{{{
+
+map ,v :tabe $MYVIMRC<CR>
+map ,V :source $MYVIMRC<CR>
+map ,i :tabe ~/.config/i3/config<CR>
+map ,s :tabe ~/.config/i3/status.py<CR>
+map ,w :tabe ~/.config/vimb/config<CR>
+nmap <space> :Files<CR>
+nmap ,b :Buffer<CR>
+
 
 " remaping for azerty
 let mapleader = ","
@@ -189,25 +194,26 @@ vmap ,j :m+<cr>
 vmap ,k :m-2<cr>
 
 " Cycle beetween tab
-nnoremap <C-h> :tabprevious<CR>
-nnoremap <C-l> :tabnext<CR>
-nnoremap <C-j> :bprevious<CR>
-nnoremap <C-k> :bnext<CR>
+nmap <silent> <C-h> :tabprevious<CR>
+nmap <silent> <C-l> :tabnext<CR>
+nmap <silent> <C-j> :bprevious<CR>
+nmap <silent> <C-k> :bnext<CR>
 
 " easy choose a buffer
-nnoremap <C-b> :buffers<CR>:buffer<Space>
+"nmap <silent> <C-b> :buffers<CR>:buffer<Space>
+nmap <leader>b :Buffers<CR>
 
 " edit in a new tab with Startify and FZF
-nnoremap <C-t> :tabnew<CR>:Startify<CR>:Files<CR>
+nmap <silent> <C-t> :tabnew<CR>:Startify<CR>:Files<CR>
 
 " toggle undotree
-nnoremap U :UndotreeToggle<CR>:UndotreeFocus<CR>
+nmap U :UndotreeToggle<CR>:UndotreeFocus<CR>
 
 " close current tab
-"nnoremap <C-d> :tabclose<cr>
+"nmap <C-d> :tabclose<cr>
 
 "delete current buffer
-"nnoremap <C-x> :bdelete<cr>
+"nmap <C-x> :bdelete<cr>
 
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
@@ -220,33 +226,31 @@ map k gk
 map <silent> <leader>: :noh<cr>
 
 " Smart way to move between windows
-"nnoremap J <C-W>j
-"nnoremap K <C-W>k
-"nnoremap H <C-W>h
-"nnoremap L <C-W>l
+"nmap J <C-W>j
+"nmap K <C-W>k
+"nmap H <C-W>h
+"nmap L <C-W>l
 set splitbelow
 set splitright
 
 " open or create file under cursor
-nnoremap gF :e <cfile><CR>
+nmap gF :e <cfile><CR>
 
 " dictionary
 nmap <silent> <leader>se :set spelllang=en spell!<CR>
 nmap <silent> <leader>sf :set spelllang=fr spell!<CR>
-imap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
-nmap <C-f> [s1z=<c-o>
+imap <silent> <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
+nmap <silent> <C-f> [s1z=<c-o>
 "nmap t :tabe<cr>
 
 " deoplete tab-complete
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
+"inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+"inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
 
 " vimoutliner
 let maplocalleader = ',,'
 
-" quelques commandes"{{{
-
-" Quelques abbréviations"{{{
+" some abreviations"{{{
 iab <expr> hms strftime("%T")
 iab <expr> ymd strftime("%y%m%d")
 iab <expr> dmy strftime("%d-%m-%Y")
@@ -254,18 +258,31 @@ iab <expr> --c strftime("%c")
 iab <expr> --d strftime("%a %d %b %Y")
 iab <expr> --f strftime("%F")
 
-" quelques autocommand"{{{
+" some autocommand"{{{
 augroup filemng
   autocmd!
   autocmd BufRead,BufNew *.md set filetype=markdown
-  autocmd FileType vimwiki,markdown set nonumber | set norelativenumber | set linebreak
+  autocmd FileType vimwiki,markdown set nonumber |
+                                    set norelativenumber |
+                                    set linebreak |
+                                    let g:solarized_visibility = "low" |
+                                    let g:solarized_contrast = "low"
+
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
   "autocmd BufWritePost *.wiki silent Vimwiki2HTML
   "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
-  autocmd FileType help nnoremap <buffer> q :q<CR>
-  autocmd FileType help nnoremap <buffer> <space> f\|
-  autocmd FileType help nnoremap <buffer> <CR> <C-]>
+  autocmd FileType help nmap <buffer> q :q<CR>
+  autocmd FileType help nmap <buffer> <space> f\|
+  autocmd FileType help nmap <buffer> <CR> <C-]>
 augroup end
+
+augroup my_git_rebase
+  autocmd!
+  autocmd FileType gitrebase nmap <buffer> F :Fixup<cr>
+  autocmd FileType gitrebase nmap <buffer> E :Edit<cr>
+  autocmd FileType gitrebase nmap <buffer> S :Cycle<cr>
+  autocmd FileType gitrebase nmap <buffer> R :Reword<cr>
+augroup END
 
 "let g:vimwiki_ext2syntax = {'.md': 'markdown',
 "                \ '.mkd': 'markdown',
@@ -285,7 +302,7 @@ function! s:goyo_enter()
   "colorscheme iawriter
   if has('gui_running')
   endif
-  colorscheme solarized8_light
+  colorscheme solarized8
   "set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 11
   set background=light
   highlight Cursor guifg=#859900 guibg=white
@@ -313,17 +330,8 @@ augroup end
 
 "Plugin setup"{{{
 
-"Deoplete settings {{{
-let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-" let g:deoplete#disable_auto_complete = 1
-augroup deoplete
-  autocmd!
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-augroup end
-"call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
+"Vim-http
+let g:vim_http_split_vertically = 1
 
 " omnifuncs
 augroup omnifuncs
@@ -331,7 +339,7 @@ augroup omnifuncs
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
 
@@ -348,17 +356,22 @@ let g:gist_show_privates = 1
 "let g:gist_list_vsplit = 1
 
 "GitGutter settings
-nmap <Down> <Plug>GitGutterNextHunk
-nmap <Up> <Plug>GitGutterPrevHunk
-nmap <Return> <Plug>GitGutterPreviewHunk
+nmap <Down> <Plug>(GitGutterNextHunk)
+nmap <Up> <Plug>(GitGutterPrevHunk)
+nmap <Return> <Plug>(GitGutterPreviewHunk)
 highlight GitGutterChange guifg=#002b36
 highlight GitGutterChange guibg=#b58900
-highlight GitGutterDelete guifg=#002b36
+highlight GitGutterDelete guifg=#fcf6e3
 highlight GitGutterDelete guibg=#dc322f
-highlight GitGutterChangeDelete guifg=#002b36
+highlight GitGutterChangeDelete guifg=#fcf6e3
 highlight GitGutterChangeDelete guibg=#dc322f
-highlight GitGutterAdd guibg=#859900
 highlight GitGutterAdd guifg=#002b36
+highlight GitGutterAdd guibg=#859900
+"let g:gitgutter_sign_added              = ''
+"let g:gitgutter_sign_modified           = ''
+"let g:gitgutter_sign_removed            = ''
+"let g:gitgutter_sign_removed_first_line = '‾'
+"let g:gitgutter_sign_modified_removed   = ''
 
 "fzf use ripgrep instead of ag"{{{
 command! -bang -nargs=* Rg
@@ -377,8 +390,51 @@ command! -bang -nargs=* Rgcw
 
 nmap <leader><Space> :Rgcw<CR>
 
+"Deoplete settings {{{
+"let g:python3_host_prog = '~/.virtualenvs/vim/bin/python'
+"let g:deoplete#enable_at_startup = 1
+"if !exists('g:deoplete#omni#input_patterns')
+"  let g:deoplete#omni#input_patterns = {}
+"endif
+"" let g:deoplete#disable_auto_complete = 1
+"augroup deoplete
+"  autocmd!
+"  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+"augroup end
+""call deoplete#custom#set('emoji', 'filetypes', ['wiki','md'])
 
-" settings perso"{{{
+""Completor
+""let g:completor_python_binary = '/home/david/.virtualenvs/vim/bin/python'
+"" Use TAB to complete when typing words, else inserts TABs as usual.  Uses
+"" dictionary, source files, and completor to find matching words to complete.
+"
+"" Note: usual completion is on <C-n> but more trouble to press all the time.
+"" Never type the same word twice and maybe learn a new spellings!
+"" Use the Linux dictionary when spelling is in doubt.
+"function! Tab_Or_Complete() abort
+"  " If completor is already open the `tab` cycles through suggested completions.
+"  if pumvisible()
+"    return "\<C-N>"
+"  " If completor is not open and we are in the middle of typing a word then
+"  " `tab` opens completor menu.
+"  elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+"    return "\<C-R>=completor#do('complete')\<CR>"
+"  else
+"    " If we aren't typing a word and we press `tab` simply do the normal `tab`
+"    " action.
+"    return "\<Tab>"
+"  endif
+"endfunction
+"
+"" Use `tab` key to select completions.  Default is arrow keys.
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"
+"" Use tab to trigger auto completion.  Default suggests completions as you type.
+"let g:completor_auto_trigger = 0
+"inoremap <expr> <Tab> Tab_Or_Complete()
+
+" my env settings"{{{
 so ~/.vim/vimrc.local
 
 " vim: set foldmethod=marker:textwidth=78

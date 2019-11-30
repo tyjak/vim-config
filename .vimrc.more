@@ -21,10 +21,11 @@ syntax enable
 
 " No menu bar and tool bar
 set guioptions=aiMr
+set iskeyword=@,48-57,_,/,:,.,?,&,=,-,_,;,~,%,192-255,#
 
 " to open full link
-let g:netrw_gx="<cWORD>"
-let g:netrw_browsex_viewer="/usr/bin/vimb"
+let g:netrw_gx="<cword>"
+let g:netrw_browsex_viewer="xdg-open"
 
 " Key bindings.
 nmap b <C-B><C-G>
