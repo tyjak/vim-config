@@ -39,6 +39,9 @@ nmap <Down> <C-E>
 nmap ^V <C-F><C-G>
 nmap <space> /https\?:\/\/<CR>
 nmap <CR> gx
+nmap o :g/Lien :/norm n <CR><CR>
+"TODO: add instapaper
+"TODO: add read indicator
 
 function! s:goyo_enter()
 	set syntax=more

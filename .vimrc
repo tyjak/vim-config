@@ -42,6 +42,7 @@ Plug 'jacekd/vim-iawriter'
 Plug 'vim-scripts/drawit'
 Plug 'sk1418/HowMuch'
 Plug 'chrisbra/csv.vim'
+Plug 'tyjak/vim-redact-pass'
 "Plug 'fszymanski/deoplete-emoji'
 "Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
 "Plug 'tpope/vim-unimpaired'
