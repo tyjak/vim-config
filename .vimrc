@@ -159,6 +159,12 @@ set hidden
 set nofoldenable
 set path=.,**
 
+if expand("%:p:h") =~ '^/dev/shm'
+     set nobackup
+     set noswapfile
+     set noundofile
+endif
+
 " color
 highlight WarningMsg guifg=#002b36
 highlight WarningMsg guibg=#b58900
