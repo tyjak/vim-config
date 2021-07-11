@@ -23,6 +23,7 @@ Plug 'tpope/vim-git'                                " git ft, indent, ...
 Plug 'mattn/gist-vim'                               " gist interface
 Plug 'mattn/webapi-vim'                             " gist dependancy
 Plug 'mhinz/vim-startify'                           " start page
+Plug 'pearofducks/ansible-vim'                      " ansible plugin
 
 " utilities
 Plug 'jamessan/vim-gnupg'
@@ -62,7 +63,7 @@ Plug 'tyjak/vim-redact-pass'
 Plug 'wincent/ferret' " for search ans substitute via Ripgrep and :Ack command
 "Plug 'yuratomo/w3m.vim'
 "Plug 'maralla/completor.vim'
-Plug 'ActivityWatch/aw-watcher-vim' " NOTE : ne supporte pas plusieurs
+"Plug 'ActivityWatch/aw-watcher-vim' " NOTE : ne supporte pas plusieurs
                                      " instances de vim
 
 " dev or specific env plugin
@@ -275,7 +276,7 @@ augroup filemng
                                     let g:solarized_visibility = "low" |
                                     let g:solarized_contrast = "low"
 
-  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType yaml,ansible setlocal ts=2 sts=2 sw=2 expandtab
   "autocmd BufWritePost *.wiki silent Vimwiki2HTML
   "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
   autocmd FileType help nmap <buffer> q :q<CR>
@@ -353,9 +354,6 @@ augroup end
 "Startify settings"{{{
 let g:startify_files_number = 5
 let g:startify_change_to_vcs_root = 1
-
-"GPG settings {{{
-let g:GPGDefaultRecipients = ['david@tyjak.net']
 
 "Gist setup"{{{
 let g:gist_clip_command = 'xclip -selection clipboard'

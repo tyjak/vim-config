@@ -2,7 +2,8 @@
 "vimwiki conversion auto des fichiers du wiki en html
 let vimwiki = {}
 let vimwiki.path = '~/vimwiki/'
-let vimwiki.path_html = '~/Sites/tyjak.github.io/'
+let vimwiki.path_html = '~/src/vimwiki_html/app/'
+let vimwiki.template_path = '~/src/vimwiki_html/templates/'
 let vimwiki_perso = {}
 let vimwiki_perso.path = '~/share/vimwiki_perso'
 let vimwiki_perso.path_html = '~/share/sites/perso'
@@ -22,6 +23,8 @@ let g:startify_bookmarks += ['~/.config/i3/status.py']
 let g:startify_bookmarks += ['~/.config/vimb/config']
 let g:startify_bookmarks += ['~/.config/vimb/bookmark']
 let g:startify_bookmarks += ['~/share/vimwiki_perso/index.wiki']
+
+let g:GPGDefaultRecipients=["david@tyjak.net"]
 
 augroup vimrc
 
