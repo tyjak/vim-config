@@ -13,7 +13,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'ryanoasis/vim-devicons'                       " filetype icons
 Plug 'lilydjwg/colorizer'                           " colorize test color ref
 Plug 'lifepillar/vim-solarized8'                    " solarized themz
-Plug 'vim-scripts/vimwiki'                          " vim wiki
+Plug 'vimwiki/vimwiki'                          " vim wiki
 Plug 'vim-airline/vim-airline'                      " custom status line
 Plug 'vim-airline/vim-airline-themes'               " theme solarized status
 Plug 'junegunn/fzf.vim'                             " power search
@@ -24,6 +24,7 @@ Plug 'mattn/gist-vim'                               " gist interface
 Plug 'mattn/webapi-vim'                             " gist dependancy
 Plug 'mhinz/vim-startify'                           " start page
 Plug 'pearofducks/ansible-vim'                      " ansible plugin
+Plug 'https://tildegit.org/sloum/gemini-vim-syntax' " gemini
 
 " utilities
 Plug 'jamessan/vim-gnupg'
@@ -44,6 +45,11 @@ Plug 'vim-scripts/drawit'
 Plug 'sk1418/HowMuch'
 Plug 'chrisbra/csv.vim'
 Plug 'tyjak/vim-redact-pass'
+Plug 'mzlogin/vim-markdown-toc'
+Plug 'sirtaj/vim-openscad'
+Plug 'aklt/plantuml-syntax'
+Plug 'tyru/open-browser.vim'
+Plug 'weirongxu/plantuml-previewer.vim'
 "Plug 'fszymanski/deoplete-emoji'
 "Plug 'tbabej/taskwiki', { 'for' : 'vimwiki' }
 "Plug 'tpope/vim-unimpaired'
@@ -111,8 +117,9 @@ augroup end
 "
 "set guifont=Liberation\ Mono\ for\ Powerline\ 10
 "set guifont=Inconsolata\ for\ Powerline\ 10
-set guifont=MesloLGSDZ\ Nerd\ Font\ Mono\ 9
-"set guifont=TerminusFont \9
+"set guifont=MesloLGSDZ\ Nerd\ Font\ Mono\ 9
+set guifont=Fantasque\ Sans\ Mono\ 12
+"set guifont=TerminusFont\ 9
 set guioptions-=m
 set guioptions-=l
 set guioptions-=r
@@ -176,20 +183,21 @@ let g:netrw_gx="<cWORD>"
 let g:netrw_browsex_viewer= "xdg-open"
 
 " Mappings"{{{
-
-map ,v :tabe $MYVIMRC<CR>
-map ,V :source $MYVIMRC<CR>
-map ,i :tabe ~/.config/i3/config<CR>
-map ,s :tabe ~/.config/i3/status.py<CR>
-map ,w :tabe ~/.config/vimb/config<CR>
-nmap <space> :Files<CR>
-nmap ,b :Buffer<CR>
-
-
 " remaping for azerty
 let mapleader = ","
 " remap c-[ for azerty keyboard
 " noremap <C-ù> <C-]>
+
+
+map <leader>v :tabe $MYVIMRC<CR>
+map <leader>V :source $MYVIMRC<CR>
+map <leader>i :tabe ~/.config/i3/config<CR>
+map <leader>s :tabe ~/.config/i3/status.py<CR>
+map <leader>w :tabe ~/.config/vimb/config<CR>
+nmap <space> :Files<CR>
+nmap <leader><Space> :Rgcw<CR>
+nmap <leader>b :Buffer<CR>
+
 
 " Switch CWD to the directory of the open buffer
 map <leader>; :cd %:p:h<cr>:pwd<cr>
@@ -212,7 +220,7 @@ nmap <silent> <C-k> :bnext<CR>
 nmap <leader>b :Buffers<CR>
 
 " edit in a new tab with Startify and FZF
-nmap <silent> <C-t> :tabnew<CR>:Startify<CR>:Files<CR>
+nmap <silent> <C-t> :tabnew<CR>:Startify<CR>
 
 " toggle undotree
 nmap U :UndotreeToggle<CR>:UndotreeFocus<CR>
@@ -251,6 +259,21 @@ imap <silent> <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <silent> <C-f> [s1z=<c-o>
 "nmap t :tabe<cr>
 
+"Taskwiki 10:00 default time
+imap <expr> -tw system("echo -n \"($(date --date 'next week' +\%F) 10:00)\"")
+imap <expr> -tww system("echo -n \"($(date --date '2 week' +\%F) 10:00)\"")
+imap <expr> -t2w system("echo -n \"($(date --date '2 week' +\%F) 10:00)\"")
+imap <expr> -t3w system("echo -n \"($(date --date '3 week' +\%F) 10:00)\"")
+imap <expr> -tmo system("echo -n \"($(date --date 'next Monday' +\%F) 10:00)\"")
+imap <expr> -ttu system("echo -n \"($(date --date 'next Tuesday' +\%F) 10:00)\"")
+imap <expr> -twe system("echo -n \"($(date --date 'next Wednesday' +\%F) 10:00)\"")
+imap <expr> -tth system("echo -n \"($(date --date 'next Thursday' +\%F) 10:00)\"")
+imap <expr> -tfr system("echo -n \"($(date --date 'next Friday' +\%F) 10:00)\"")
+imap <expr> -tM system("echo -n \"($(date --date 'next Month' +\%F) 10:00)\"")
+imap <expr> -tq system("echo -n \"($(date --date 'next Quarter' +\%F) 10:00)\"")
+let g:taskwiki_sort_orders={"T": "end-"}
+let g:taskwiki_sort_orders={"L": "entry-"}
+
 " deoplete tab-complete
 "inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
 "inoremap <expr> <tab>o pumvisible() ? "\<c-x>\<c-o>" : "\<tab>"
@@ -260,23 +283,35 @@ let maplocalleader = ',,'
 
 " some abreviations"{{{
 iab <expr> hms strftime("%T")
-iab <expr> ymd strftime("%y%m%d")
+iab <expr> Ymd strftime("%y%m%d")
+iab <expr> ymd strftime("%y-%m-%d")
 iab <expr> dmy strftime("%d-%m-%Y")
+iab <expr> ymdhm strftime("%y%m%d%H%M")
 iab <expr> --c strftime("%c")
+iab <expr> --i strftime("%FT%T%z")
 iab <expr> --d strftime("%a %d %b %Y")
 iab <expr> --f strftime("%F")
+iab <expr> --t strftime("%Y-%m-%d %H:%M")
+iab modwiki vim:ft=vimwiki
+iab modmd vim:ft=markdown
+iab modpy # vim:ft=python
+
+" get wimwiki link from selection or first entry of pasteboard
+imap <expr> -wurl system("gettitle -w -c")
 
 " some autocommand"{{{
 augroup filemng
   autocmd!
   autocmd BufRead,BufNew *.md set filetype=markdown
-  autocmd FileType vimwiki,markdown set nonumber |
+  autocmd FileType vimwiki,markdown,votl set nonumber |
                                     set norelativenumber |
                                     set linebreak |
                                     let g:solarized_visibility = "low" |
-                                    let g:solarized_contrast = "low"
+                                    let g:solarized_contrast = "low" |
+                                    let g:vimwiki_url_maxsave = 0 |
+                                    colorscheme solarized8
 
-  autocmd FileType yaml,ansible setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType yaml,yaml.ansible setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0#
   "autocmd BufWritePost *.wiki silent Vimwiki2HTML
   "au! BufRead,BufNewFile *.wiki    setfiletype wiki.votl
   autocmd FileType help nmap <buffer> q :q<CR>
@@ -341,6 +376,9 @@ augroup end
 "Vim-http
 let g:vim_http_split_vertically = 1
 
+"Vim CSV
+let g:csv_delim=','
+
 " omnifuncs
 augroup omnifuncs
   autocmd!
@@ -378,6 +416,7 @@ highlight GitGutterAdd guibg=#859900
 "let g:gitgutter_sign_removed_first_line = '‾'
 "let g:gitgutter_sign_modified_removed   = ''
 
+let $FZF_DEFAULT_COMMAND='fd -LH --ignore-file=~/.gitignore --type f'
 "fzf use ripgrep instead of ag"{{{
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -393,7 +432,23 @@ command! -bang -nargs=* Rgcw
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
-nmap <leader><Space> :Rgcw<CR>
+
+"change settings if LC_ALL is set to fr_FR.UTF-8 for DirDiff plugin
+if $LC_ALL == "fr_FR.UTF-8"
+    let g:DirDiffTextFiles = "Les fichiers "
+    let g:DirDiffTextAnd = " et "
+    let g:DirDiffTextDiffer = " sont différents"
+    let g:DirDiffTextOnlyIn = "Seulement dans "
+endif
+
+" OpenBrowser
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+let g:openbrowser_browser_commands = [
+\   {'name': 'vimb-vertical',
+\    'args': ['{browser}', '{uri}']}
+\]
 
 "Deoplete settings {{{
 "let g:python3_host_prog = '~/.virtualenvs/vim/bin/python'

@@ -9,14 +9,24 @@ let vimwiki_perso.path = '~/share/vimwiki_perso'
 let vimwiki_perso.path_html = '~/share/sites/perso'
 let vimwiki_boulot = {}
 let vimwiki_boulot.path = '~/share/vimwiki_boulot'
-let g:vimwiki_list = [vimwiki, vimwiki_perso, vimwiki_boulot]
+let vimwiki_public = {}
+let vimwiki_public.path = '~/sdf/gopher/'
+let vimwiki_public.ext = '.gmi'
+let vimwiki_public.name = 'sdf'
+let g:vimwiki_list = [vimwiki, vimwiki_perso, vimwiki_boulot, vimwiki_public]
 let g:vimwiki_folding='expr'
+au BufNewFile ~/share/vimwiki_*/diary/*.wiki :silent 0r !~/share/bin/vimwiki-generate-daily-entry.sh '%'
+au BufLeave ~/share/vimwiki_*/diary/*.wiki :w %
+au BufEnter ~/share/vimwiki_*/diary/*.wiki silent! :lcd %:p:h/..
+au BufEnter ~/sdf/gopher/*.gmi silent! :lcd %:p:h/
+nmap <leader>t :!tig<CR>
 
 "Startify setup"{{{
 let g:startify_change_to_vcs_root = 1
 let g:startify_bookmarks = []
 let g:startify_bookmarks += [{'h':'~/vimwiki/index.wiki'}]
 let g:startify_bookmarks += [{'d':'~/Documents'}]
+let g:startify_bookmarks += [{'s':'~/sdf/gopher'}]
 let g:startify_bookmarks += ['~/.muttrc-local']
 let g:startify_bookmarks += ['~/.config/i3/config']
 let g:startify_bookmarks += ['~/.config/i3/status.py']
@@ -46,8 +56,8 @@ augroup END
 noremap <F8> :call Slideshow()<CR>
 
 "TO TEST
-"command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
-"command! -range Unquotedtext <line1>,<line2>!php -r "print utf7_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
+command! -range Htmlentities <line1>,<line2>!php -r "print htmlentities(file_get_contents('php://stdin','r'),ENT_IGNORE,'ISO-8859-1');"
+command! -range Unquotedtext <line1>,<line2>!php -r "print utf8_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
 
 function! UnquotedText()
     '<,'>!php -r "print utf8_decode(quoted_printable_decode(file_get_contents('php://stdin','r')));"
@@ -69,30 +79,25 @@ function! HtmlDecodeEntities()
     '<,'>!php -r "print html_entity_decode(file_get_contents('php://stdin','r'));"
 endfunction
 
-function! VimwikiLinkHandler(link) "{{{ Use Vim to open links with the
-" 'vlocal:' or 'vfile:' schemes.  E.g.:
-"   1) [[vfile:///~/Code/PythonProject/abc123.py]], and
-"   2) [[vlocal:./|Wiki Home]]
-let link = a:link
-if link =~ "vlocal:" || link =~ "vfile:"
-  let link = link[1:]
-else
-  return 0
-endif
-let [idx, scheme, path, subdir, lnk, ext, url] =
-     \ vimwiki#base#resolve_scheme(link, 0)
-if g:vimwiki_debug
-  echom 'LinkHandler: idx='.idx.', scheme=[v]'.scheme.', path='.path.
-       \ ', subdir='.subdir.', lnk='.lnk.', ext='.ext.', url='.url
-endif
-if url == ''
-  echom 'Vimwiki Error: Unable to resolve link!'
-  return 0
-else
-  call vimwiki#base#edit_file('tabnew', url, [], 0)
-  return 1
-endif
-endfunction " }}}
+function! VimwikiLinkHandler(link)
+    " Use Vim to open external files with the 'vfile:' scheme.  E.g.:
+    "   1) [[vfile:~/Code/PythonProject/abc123.py]]
+    "   2) [[vfile:./|Wiki Home]]
+    let link = a:link
+    if link =~# '^vfile:'
+      let link = link[1:]
+    else
+      return 0
+    endif
+    let link_infos = vimwiki#base#resolve_link(link)
+    if link_infos.filename == ''
+      echomsg 'Vimwiki Error: Unable to resolve link!'
+      return 0
+    else
+      exe 'tabnew ' . fnameescape(link_infos.filename)
+      return 1
+    endif
+endfunction
 
 function! Slideshow()
     execute "!slideshow " . bufname("%")
